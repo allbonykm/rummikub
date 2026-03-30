@@ -7,7 +7,7 @@ import { PLAYERS } from '../../utils/players';
  */
 export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 pt-20 pb-40 text-center">
+    <div className="flex flex-col items-center w-full min-h-screen px-6 pt-24 pb-48 text-center">
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -16,6 +16,21 @@ export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
         <div style={{ marginBottom: '16px' }}>
           <h2 className="text-6xl font-black font-headline text-on-background tracking-tighter" style={{ marginBottom: '16px' }}>Let's play Rummikub</h2>
           <p className="text-on-surface-variant text-lg font-medium opacity-70 decoration-primary/20 underline-offset-10 underline decoration-2">함께 루미큐브할 사람을 선택해 주세요 (2~5명)</p>
+        </div>
+
+        <div className="w-full flex justify-center mb-10 mt-6">
+          <motion.button
+            disabled={selectedIds.length < 2}
+            onClick={onStart}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className={`w-full max-w-sm px-6 py-5 rounded-full font-black text-2xl tracking-[0.1em] transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)] ${selectedIds.length >= 2
+              ? 'bg-gradient-to-r from-primary-container to-[#930016] text-white ring-4 ring-primary-container/20'
+              : 'bg-surface-container-highest text-on-surface/20 cursor-not-allowed shadow-none border border-white/5'
+              }`}
+          >
+            {selectedIds.length >= 2 ? `루미큐브 시작 (${selectedIds.length}명)` : '루미큐브 할 사람 선택'}
+          </motion.button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3" style={{ rowGap: '16px', columnGap: '40px', marginBottom: '40px' }}>
@@ -63,18 +78,7 @@ export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
           })}
         </div>
 
-        <motion.button
-          disabled={selectedIds.length < 2}
-          onClick={onStart}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
-          className={`w-full max-w-sm py-7 rounded-full font-black text-2xl tracking-[0.1em] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.4)] ${selectedIds.length >= 2
-            ? 'bg-gradient-to-r from-primary-container to-[#930016] text-white'
-            : 'bg-surface-container-highest text-on-surface/20 cursor-not-allowed shadow-none border border-white/5'
-            }`}
-        >
-          {selectedIds.length >= 2 ? `루미큐브 시작 (${selectedIds.length}명)` : '루미큐브 할 사람 선택'}
-        </motion.button>
+
       </motion.div>
     </div>
   );
