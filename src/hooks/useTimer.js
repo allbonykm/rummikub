@@ -1,5 +1,18 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 
+// 공유(Share) AudioContext 인스턴스 (브라우저 정책 및 성능 최적화)
+let sharedAudioCtx = null;
+
+const getAudioContext = () => {
+  if (!sharedAudioCtx) {
+    sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (sharedAudioCtx.state === 'suspended') {
+    sharedAudioCtx.resume();
+  }
+  return sharedAudioCtx;
+};
+
 /**
  * 60초 타이머 커스텀 훅
  * - start: 타이머 시작
@@ -12,7 +25,6 @@ export default function useTimer(initialSeconds = 60) {
   const [isAlarm, setIsAlarm] = useState(false);
   const intervalRef = useRef(null);
   const alarmRef = useRef(null);
-  const countdownAudioRef = useRef(null);
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current) {
@@ -23,44 +35,75 @@ export default function useTimer(initialSeconds = 60) {
 
   const stopAlarm = useCallback(() => {
     if (alarmRef.current) {
-      alarmRef.current.pause();
-      alarmRef.current.currentTime = 0;
+      clearInterval(alarmRef.current);
       alarmRef.current = null;
     }
     setIsAlarm(false);
   }, []);
 
   const playCountdownSound = useCallback((sec) => {
-    const names = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
     if (sec >= 1 && sec <= 10) {
       try {
-        if (countdownAudioRef.current) {
-          countdownAudioRef.current.pause();
-        }
-        const audio = new Audio(`/assets/audio/${names[sec - 1]}.mp3`);
-        audio.volume = 0.8;
-        audio.play().catch(() => {});
-        countdownAudioRef.current = audio;
+        const audioCtx = getAudioContext();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        // 3초 이하는 더 높은 톤의 주의 비프음
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(sec <= 3 ? 880 : 440, audioCtx.currentTime);
+
+        gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
       } catch (e) {
-        // 음성 파일이 없을 시 무시
+        // 브라우저 오디오 권한 등의 이슈 시 무시
+        console.error("Audio error:", e);
       }
     }
   }, []);
 
   const startAlarm = useCallback(() => {
     try {
-      const alarm = new Audio('/assets/audio/alarm.mp3');
-      alarm.loop = true;
-      alarm.volume = 1.0;
-      alarm.play().catch(() => {});
-      alarmRef.current = alarm;
+      if (alarmRef.current) return;
+      
+      const audioCtx = getAudioContext();
+      
+      const playBeep = () => {
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.3);
+        
+        gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+      };
+
+      playBeep(); 
+      alarmRef.current = setInterval(playBeep, 400); 
       setIsAlarm(true);
     } catch (e) {
       setIsAlarm(true);
+      console.error("Alarm error:", e);
     }
   }, []);
 
   const start = useCallback(() => {
+    // 사용자 클릭(User Gesture) 시점에 AudioContext를 미리 활성화 (브라우저 정책 통과)
+    getAudioContext();
+
     clearTimer();
     stopAlarm();
     setIsRunning(true);

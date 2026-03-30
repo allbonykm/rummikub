@@ -27,9 +27,9 @@ export default function VaultPage({ history }) {
   };
 
   return (
-    <main className="pt-4 pb-32 px-4 md:px-6 max-w-4xl mx-auto space-y-6">
-      <header className="space-y-2">
-        <h2 className="text-3xl md:text-4xl font-extrabold font-headline tracking-tighter">
+    <main className="flex flex-col items-center justify-center min-h-[80vh] px-4 pb-32 max-w-4xl mx-auto space-y-8 text-center w-full">
+      <header>
+        <h2 className="text-3xl md:text-4xl font-extrabold font-headline tracking-tighter mb-2">
           경기 기록
         </h2>
         <p className="text-sm text-on-surface-variant">

@@ -23,14 +23,6 @@ export default function PlayerCard({
     'border-primary-fixed-dim',
   ];
 
-  const accentBg = [
-    'bg-primary',
-    'bg-secondary',
-    'bg-tertiary',
-    'bg-surface-container-highest',
-    'bg-primary-fixed-dim',
-  ];
-
   const initials = player.name.charAt(0);
   const colorIndex = index % borderColors.length;
 
@@ -65,12 +57,6 @@ export default function PlayerCard({
               {initials}
             </div>
           )}
-          {/* 번호 뱃지 */}
-          <div
-            className={`absolute -bottom-1 -right-1 ${accentBg[colorIndex]} text-on-primary-fixed w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shadow-lg`}
-          >
-            {index + 1}
-          </div>
         </div>
 
         <div className="flex flex-col">

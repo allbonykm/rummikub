@@ -42,24 +42,22 @@ export default function StatsPage({ stats }) {
   }
 
   return (
-    <main className="pt-10 md:pt-20 pb-40 px-4 md:px-10 max-w-7xl mx-auto space-y-16 md:space-y-24">
+    <main className="pt-6 md:pt-10 pb-24 px-4 md:px-10 max-w-4xl w-full mx-auto">
       {/* Header */}
-      <header className="space-y-4 md:space-y-6 text-center lg:text-left">
-        <div className="inline-flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 bg-surface-container-high rounded-full border border-white/5 shadow-inner">
-          <span className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-tertiary animate-pulse" />
-          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] font-label text-tertiary">
-            TOTAL {totalGames} BATTLES RECORDED
-          </span>
-        </div>
-        <h2 className="text-4xl md:text-5xl lg:text-7xl font-black font-headline tracking-tighter italic">
+      <header className="text-center" style={{ marginBottom: '16px' }}>
+        <div className="h-6 md:h-8" />
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-headline tracking-tighter">
           실시간 랭킹 & 통계
         </h2>
       </header>
 
       {/* Bento Layout */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-stretch">
         {/* Podium */}
-        <div className="lg:col-span-7 bg-surface-container-low rounded-3xl md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col items-center justify-end min-h-[400px] md:min-h-[500px] border border-white/5 shadow-2xl">
+        <div 
+          className="bg-surface-container-low p-6 md:p-8 relative overflow-hidden flex flex-col items-center justify-end min-h-[300px] h-full border border-white/5 shadow-xl"
+          style={{ borderRadius: '16px' }}
+        >
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-br from-tertiary/20 via-surface-container-low to-primary/20" />
@@ -121,18 +119,19 @@ export default function StatsPage({ stats }) {
         </div>
 
         {/* Right Column: Stats Cards */}
-        <div className="lg:col-span-5 flex flex-col gap-8 md:gap-16 lg:gap-24">
+        <div className="flex flex-col gap-4 md:gap-6 h-full">
           {/* Efficiency Metric */}
-          <div className="bg-surface-container-low rounded-3xl md:rounded-[4rem] p-12 md:p-16 lg:p-20 flex flex-col justify-between border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-primary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
-            <div className="space-y-4 md:space-y-8 text-left">
-              <h3 className="text-[10px] md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-primary-container/80 uppercase">
-                EFFICIENCY METRIC
-              </h3>
-              <p className="text-3xl md:text-4xl lg:text-6xl font-black font-headline italic tracking-tighter leading-tight md:leading-[1.1]">첫 등록시<br className="hidden md:block" /> 승리 비율</p>
+          <div 
+            className="flex-1 bg-surface-container-low p-6 md:p-8 flex flex-col justify-center border-t border-r border-b border-white/5 border-l-8 md:border-l-[12px] border-l-primary-container shadow-xl transition-all duration-500 hover:scale-[1.01]"
+            style={{ borderRadius: '16px' }}
+          >
+            <div className="space-y-2 md:space-y-4 text-center lg:text-left">
+              <div className="h-3 md:h-4" />
+              <p className="text-xl md:text-2xl lg:text-3xl font-black font-headline tracking-tighter leading-tight">첫 등록시 승리 비율</p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-16 mt-8 md:mt-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 mt-4 md:mt-6">
               {/* Gauge */}
-              <div className="relative w-32 h-32 md:w-44 md:h-44 flex items-center justify-center flex-shrink-0">
+              <div className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center flex-shrink-0">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 128 128">
                   <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="12" />
                   <circle
@@ -147,11 +146,11 @@ export default function StatsPage({ stats }) {
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center">
-                  <span className="text-3xl md:text-5xl font-black font-headline tracking-tighter">{avgRate}%</span>
+                  <span className="text-2xl md:text-3xl font-black font-headline tracking-tighter">{avgRate}%</span>
                 </div>
               </div>
-              <div className="space-y-3 md:space-y-8 flex-1 text-center sm:text-left">
-                <p className="text-base md:text-xl text-on-surface-variant/80 font-medium italic leading-relaxed">
+              <div className="space-y-2 md:space-y-4 flex-1 text-center sm:text-left">
+                <p className="text-sm md:text-base text-on-surface-variant/80 font-medium italic leading-relaxed">
                   "빠른 등록은 승리로 가는 가장 확실한 전략입니다."
                 </p>
               </div>
@@ -159,25 +158,26 @@ export default function StatsPage({ stats }) {
           </div>
 
           {/* Rivalry Analysis */}
-          <div className="bg-surface-container-low rounded-3xl md:rounded-[4rem] p-12 md:p-16 lg:p-20 space-y-8 md:space-y-16 border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-secondary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
-            <div className="space-y-4 md:space-y-8 text-left">
-              <h3 className="text-[10px] md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-secondary-container/80 uppercase">
-                RIVALRY ANALYSIS
-              </h3>
-              <p className="text-3xl md:text-4xl lg:text-6xl font-black font-headline italic tracking-tighter leading-tight md:leading-[1.1]">승률 분포</p>
+          <div 
+            className="flex-1 bg-surface-container-low p-6 md:p-8 space-y-4 md:space-y-6 flex flex-col justify-center border-t border-r border-b border-white/5 border-l-8 md:border-l-[12px] border-l-secondary-container shadow-xl transition-all duration-500 hover:scale-[1.01]"
+            style={{ borderRadius: '16px' }}
+          >
+            <div className="space-y-2 md:space-y-4 text-center lg:text-left">
+              <div className="h-3 md:h-4" />
+              <p className="text-xl md:text-2xl lg:text-3xl font-black font-headline tracking-tighter leading-tight">승률 분포</p>
             </div>
-            <div className="space-y-6 md:space-y-12">
+            <div className="space-y-4 md:space-y-6">
               {mvpRanking.slice(0, 4).map((entry, idx) => {
                 const rate = totalGames > 0 ? Math.round((entry.wins / totalGames) * 100) : 0;
                 return (
-                  <div key={entry.name} className="space-y-2 md:space-y-5">
+                  <div key={entry.name} className="space-y-2 md:space-y-3">
                     <div className="flex justify-between items-end">
-                      <span className="text-lg md:text-2xl font-black font-headline text-on-surface italic">
+                      <span className="text-base md:text-lg font-black font-headline text-on-surface">
                         {idx + 1}. {entry.name}
                       </span>
-                      <span className="text-secondary font-black text-[10px] md:text-lg tracking-widest">{rate}% WIN RATE</span>
+                      <span className="text-secondary font-black text-[10px] md:text-xs tracking-widest">{rate}% WIN RATE</span>
                     </div>
-                    <div className="h-5 md:h-8 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-1 md:p-1.5">
+                    <div className="h-4 md:h-6 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-1">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${rate}%` }}
@@ -189,9 +189,8 @@ export default function StatsPage({ stats }) {
                 );
               })}
               {mvpRanking.length === 0 && (
-                <div className="py-12 md:py-24 text-center italic text-xl md:text-2xl opacity-20 flex flex-col items-center gap-4 md:gap-6">
-                  <div className="w-12 md:w-16 h-1 md:h-1.5 bg-white/10 rounded-full animate-pulse" />
-                  데이터 수집 중...
+                <div className="py-12 md:py-24 text-center text-lg md:text-xl opacity-30 flex flex-col items-center justify-center">
+                  아직 기록이 없습니다
                 </div>
               )}
             </div>

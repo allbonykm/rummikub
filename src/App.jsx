@@ -118,6 +118,7 @@ function App() {
             exit="out"
             variants={pageVariants}
             transition={{ duration: 0.2 }}
+            className="w-full flex justify-center"
           >
             <StatsPage stats={stats} />
           </motion.div>
@@ -130,6 +131,7 @@ function App() {
             exit="out"
             variants={pageVariants}
             transition={{ duration: 0.2 }}
+            className="w-full flex justify-center"
           >
             <VaultPage history={gameState.history} />
           </motion.div>

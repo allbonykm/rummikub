@@ -7,13 +7,14 @@ import { Undo2, History, Menu, X, Users } from 'lucide-react';
  */
 export function TopNav({ onUndo, canUndo, onReset, isGameActive }) {
   return (
-    <nav className="bg-surface flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50 max-w-5xl mx-auto">
-      <div className="flex items-center gap-4">
+    <nav className="bg-surface grid grid-cols-3 items-center w-full px-6 py-4 sticky top-0 z-50 max-w-5xl mx-auto">
+      <div></div>
+      <div className="flex justify-center whitespace-nowrap">
         <h1 className="text-2xl font-bold tracking-tight font-headline text-on-background">
           우리끼리 루미큐브
         </h1>
       </div>
-      <div className="flex items-center gap-6">
+      <div className="flex justify-end items-center gap-6">
         {isGameActive && (
           <button
             onClick={onReset}
@@ -52,20 +53,23 @@ export function BottomNav({ activeTab, onTabChange }) {
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
-          className={`flex flex-col items-center justify-center px-6 py-2 transition-all ${
-            activeTab === tab.id
-              ? 'text-primary-container bg-surface-container-highest rounded-xl translate-y-[-2px]'
-              : 'text-on-surface/50 hover:text-secondary'
-          }`}
+          className={`flex flex-col items-center justify-center px-6 py-3 transition-all ${activeTab === tab.id
+            ? 'text-primary-container bg-surface-container-highest rounded-xl translate-y-[-2px]'
+            : 'text-on-surface/50 hover:text-secondary'
+            }`}
         >
           <span
-            className="material-symbols-outlined mb-1"
-            style={activeTab === tab.id ? { fontVariationSettings: "'FILL' 1" } : {}}
+            className="material-symbols-outlined"
+            style={{
+              // 직접 크기(px 단위) 지정
+              fontSize: '40px',
+              // 'wght' 600~700 사이로 하면 선이 두꺼워집니다.
+              fontVariationSettings: activeTab === tab.id
+                ? "'FILL' 1, 'wght' 600"
+                : "'FILL' 0, 'wght' 600"
+            }}
           >
             {tab.icon}
-          </span>
-          <span className="font-label text-[10px] font-bold uppercase tracking-widest">
-            {tab.label}
           </span>
         </button>
       ))}

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Users, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { PLAYERS } from '../../utils/players';
 
 /**
@@ -13,15 +13,12 @@ export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
         animate={{ scale: 1, opacity: 1 }}
         className="w-full max-w-2xl"
       >
-        <div className="mb-24">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-[2rem] bg-primary-container/10 mb-10 shadow-inner">
-            <Users className="text-primary-container" size={48} />
-          </div>
-          <h2 className="text-6xl font-black font-headline text-on-background mb-6 tracking-tighter italic">플레이어 선택</h2>
-          <p className="text-on-surface-variant text-lg font-medium opacity-70 decoration-primary/20 underline-offset-10 underline decoration-2">함께 게임을 즐길 멤버를 선택해 주세요 (2~5인)</p>
+        <div style={{ marginBottom: '16px' }}>
+          <h2 className="text-6xl font-black font-headline text-on-background tracking-tighter" style={{ marginBottom: '16px' }}>루미큐브 할 사람</h2>
+          <p className="text-on-surface-variant text-lg font-medium opacity-70 decoration-primary/20 underline-offset-10 underline decoration-2">함께 루미큐브할 사람을 선택해 주세요 (2~5명)</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-10 mb-32">
+        <div className="grid grid-cols-2 md:grid-cols-3" style={{ rowGap: '16px', columnGap: '40px', marginBottom: '40px' }}>
           {PLAYERS.map((player) => {
             const isSelected = selectedIds.includes(player.id);
             return (
@@ -29,11 +26,11 @@ export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
                 key={player.id}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => onToggle(player.id)}
-                className={`relative p-10 rounded-[2.5rem] border-2 transition-all flex flex-col items-center gap-6 ${
-                  isSelected
-                    ? 'border-primary-container bg-primary-container/10 shadow-[0_20px_50px_rgba(230,25,46,0.2)] ring-4 ring-primary-container/10'
-                    : 'border-white/5 bg-surface-container-low hover:border-white/20 hover:bg-surface-container-highest/30'
-                }`}
+                className={`relative rounded-[2.5rem] border-2 transition-all flex flex-col items-center gap-4 ${isSelected
+                  ? 'border-primary-container bg-primary-container/10 shadow-[0_20px_50px_rgba(230,25,46,0.2)] ring-4 ring-primary-container/10'
+                  : 'border-white/5 bg-surface-container-low hover:border-white/20 hover:bg-surface-container-highest/30'
+                  }`}
+                style={{ padding: '16px' }}
               >
                 <div className="relative">
                   <div className={`w-28 h-28 rounded-full bg-surface-container-highest flex items-center justify-center text-5xl font-black overflow-hidden border-2 ${isSelected ? 'border-primary-container' : 'border-transparent'} shadow-2xl transition-transform group-hover:scale-105 duration-500`}>
@@ -69,15 +66,14 @@ export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
         <motion.button
           disabled={selectedIds.length < 2}
           onClick={onStart}
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
-          className={`w-full max-w-sm py-7 rounded-full font-black text-2xl tracking-[0.1em] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.4)] ${
-            selectedIds.length >= 2
-              ? 'bg-gradient-to-r from-primary-container to-[#930016] text-white'
-              : 'bg-surface-container-highest text-on-surface/20 cursor-not-allowed shadow-none border border-white/5'
-          }`}
+          className={`w-full max-w-sm py-7 rounded-full font-black text-2xl tracking-[0.1em] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.4)] ${selectedIds.length >= 2
+            ? 'bg-gradient-to-r from-primary-container to-[#930016] text-white'
+            : 'bg-surface-container-highest text-on-surface/20 cursor-not-allowed shadow-none border border-white/5'
+            }`}
         >
-          {selectedIds.length >= 2 ? `게임 시작 (${selectedIds.length}명)` : '인원을 선택해 주세요'}
+          {selectedIds.length >= 2 ? `루미큐브 시작 (${selectedIds.length}명)` : '루미큐브 할 사람 선택'}
         </motion.button>
       </motion.div>
     </div>
