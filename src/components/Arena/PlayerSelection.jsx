@@ -7,7 +7,7 @@ import { PLAYERS } from '../../utils/players';
  */
 export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
   return (
-    <div className="flex flex-col items-center w-full min-h-dvh px-6 pt-24" style={{ paddingBottom: 'calc(200px + env(safe-area-inset-bottom))' }}>
+    <div className="flex flex-col items-center w-full min-h-dvh px-8 pt-24" style={{ paddingBottom: 'calc(200px + env(safe-area-inset-bottom))' }}>
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

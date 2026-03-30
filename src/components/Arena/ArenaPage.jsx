@@ -71,7 +71,7 @@ export default function ArenaPage({
   };
 
   return (
-    <main className="max-w-[1400px] w-full mx-auto px-6 md:px-12 pt-12" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
+    <main className="max-w-[1400px] w-full mx-auto px-8 md:px-12 pt-12" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
       {/* Timer Section */}
       <Timer
         seconds={timer.seconds}
@@ -101,7 +101,7 @@ export default function ArenaPage({
             playerStats={getPlayerStats(player.name)}
             onRegister={onRegister}
             onWin={onWin}
-            className={isLandscape ? "w-[280px] lg:w-[320px] shrink-0" : "w-full max-w-sm"}
+            className={isLandscape ? "w-[280px] lg:w-[320px] shrink-0" : "w-[88%] max-w-[340px]"}
           />
         ))}
       </Reorder.Group>
