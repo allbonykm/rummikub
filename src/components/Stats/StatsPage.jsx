@@ -42,7 +42,7 @@ export default function StatsPage({ stats }) {
   }
 
   return (
-    <main className="pt-10 md:pt-20 pb-20 md:pb-40 px-4 md:px-10 max-w-7xl mx-auto space-y-16 md:space-y-24">
+    <main className="pt-10 md:pt-20 pb-40 px-4 md:px-10 max-w-7xl mx-auto space-y-16 md:space-y-24">
       {/* Header */}
       <header className="space-y-4 md:space-y-6 text-center lg:text-left">
         <div className="inline-flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 bg-surface-container-high rounded-full border border-white/5 shadow-inner">
@@ -59,7 +59,7 @@ export default function StatsPage({ stats }) {
       {/* Bento Layout */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
         {/* Podium */}
-        <div className="lg:col-span-7 bg-surface-container-low rounded-[2rem] md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col items-center justify-end min-h-[400px] md:min-h-[500px] border border-white/5 shadow-2xl">
+        <div className="lg:col-span-7 bg-surface-container-low rounded-3xl md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col items-center justify-end min-h-[400px] md:min-h-[500px] border border-white/5 shadow-2xl">
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-br from-tertiary/20 via-surface-container-low to-primary/20" />
@@ -123,9 +123,9 @@ export default function StatsPage({ stats }) {
         {/* Right Column: Stats Cards */}
         <div className="lg:col-span-5 flex flex-col gap-8 md:gap-16 lg:gap-24">
           {/* Efficiency Metric */}
-          <div className="bg-surface-container-low rounded-[2rem] md:rounded-[4rem] p-8 md:p-16 lg:p-20 flex flex-col justify-between border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-primary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
-            <div className="space-y-4 md:space-y-8">
-              <h3 className="text-xs md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-primary-container/80 uppercase">
+          <div className="bg-surface-container-low rounded-3xl md:rounded-[4rem] p-12 md:p-16 lg:p-20 flex flex-col justify-between border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-primary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
+            <div className="space-y-4 md:space-y-8 text-left">
+              <h3 className="text-[10px] md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-primary-container/80 uppercase">
                 EFFICIENCY METRIC
               </h3>
               <p className="text-3xl md:text-4xl lg:text-6xl font-black font-headline italic tracking-tighter leading-tight md:leading-[1.1]">첫 등록시<br className="hidden md:block" /> 승리 비율</p>
@@ -134,12 +134,12 @@ export default function StatsPage({ stats }) {
               {/* Gauge */}
               <div className="relative w-32 h-32 md:w-44 md:h-44 flex items-center justify-center flex-shrink-0">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 128 128">
-                  <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="12" md:strokeWidth="16" />
+                  <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="12" />
                   <circle
                     cx="64" cy="64" r="54"
                     fill="transparent"
                     stroke="var(--color-primary-container)"
-                    strokeWidth="12" md:strokeWidth="16"
+                    strokeWidth="12"
                     strokeDasharray={2 * Math.PI * 54}
                     strokeDashoffset={2 * Math.PI * 54 * (1 - avgRate / 100)}
                     strokeLinecap="round"
@@ -159,9 +159,9 @@ export default function StatsPage({ stats }) {
           </div>
 
           {/* Rivalry Analysis */}
-          <div className="bg-surface-container-low rounded-[2rem] md:rounded-[4rem] p-8 md:p-16 lg:p-20 space-y-8 md:space-y-16 border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-secondary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
-            <div className="space-y-4 md:space-y-8">
-              <h3 className="text-xs md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-secondary-container/80 uppercase">
+          <div className="bg-surface-container-low rounded-3xl md:rounded-[4rem] p-12 md:p-16 lg:p-20 space-y-8 md:space-y-16 border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-secondary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
+            <div className="space-y-4 md:space-y-8 text-left">
+              <h3 className="text-[10px] md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-secondary-container/80 uppercase">
                 RIVALRY ANALYSIS
               </h3>
               <p className="text-3xl md:text-4xl lg:text-6xl font-black font-headline italic tracking-tighter leading-tight md:leading-[1.1]">승률 분포</p>
@@ -175,7 +175,7 @@ export default function StatsPage({ stats }) {
                       <span className="text-lg md:text-2xl font-black font-headline text-on-surface italic">
                         {idx + 1}. {entry.name}
                       </span>
-                      <span className="text-secondary font-black text-xs md:text-lg tracking-widest">{rate}% WIN RATE</span>
+                      <span className="text-secondary font-black text-[10px] md:text-lg tracking-widest">{rate}% WIN RATE</span>
                     </div>
                     <div className="h-5 md:h-8 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-1 md:p-1.5">
                       <motion.div
