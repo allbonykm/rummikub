@@ -23,6 +23,36 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
     return 'RE-COUNT';
   };
 
+  const playPing = () => {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, ctx.currentTime); // 가벼운 A5 음 (라)
+      
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.4);
+    } catch (e) {
+      // Audio not supported or blocked
+    }
+  };
+
+  const handleToggle = () => {
+    playPing();
+    onToggle();
+  };
+
   return (
     <section className="mb-10 text-center relative">
       <div className="inline-block relative">
@@ -38,7 +68,7 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
           <div className="w-52 h-52 rounded-full border-4 border-surface-container-highest flex items-center justify-center bg-surface-container-low shadow-2xl">
             <motion.button
               whileTap={{ scale: 0.92 }}
-              onClick={onToggle}
+              onClick={handleToggle}
               className={`group relative flex flex-col items-center justify-center w-44 h-44 rounded-full shadow-lg transition-all duration-200 ${
                 isAlarm
                   ? 'bg-gradient-to-br from-primary-container to-[#930016] timer-glow'
