@@ -1,0 +1,18 @@
+{
+  "name": "우리끼리 루미큐브",
+  "short_name": "루미큐브",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111114",
+  "theme_color": "#111114",
+  "description": "루미큐브 오프라인 게임 보조 기록기",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/pwa-icon.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
