@@ -18,7 +18,7 @@ export default function ArenaPage({
   };
 
   return (
-    <main className="max-w-4xl mx-auto px-4 pt-4 pb-32">
+    <main className="max-w-4xl mx-auto px-6 pt-12 pb-32">
       {/* Timer Section */}
       <Timer
         seconds={timer.seconds}

@@ -56,9 +56,9 @@
   --color-outline-variant: #5d3f3d;
   --color-surface-tint: #ffb3ae;
 
-  --font-headline: 'Manrope', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-label: 'Inter', sans-serif;
+  --font-headline: 'Noto Serif KR', serif;
+  --font-body: 'Noto Serif KR', serif;
+  --font-label: 'Noto Serif KR', serif;
 }
 
 /* ===== Base Styles ===== */
