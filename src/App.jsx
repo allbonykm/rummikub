@@ -54,8 +54,32 @@ function App() {
 
   // 승리 처리
   const handleWin = async (playerName) => {
-    await gameState.recordWin(playerName, selectedPlayers);
-    timer.stop();
+    // 1. 승리 축포 애니메이션 (루미큐브 색상: 빨강, 노랑, 검정 등)
+    import('canvas-confetti').then((confetti) => {
+      confetti.default({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.5 },
+        colors: ['#E6192E', '#E9C400', '#111114', '#FFFFFF'],
+        zIndex: 9999
+      });
+    });
+
+    // 2. 축포를 볼 수 있도록 약간 지연 후 대화상자 표시
+    setTimeout(async () => {
+      const isNewGame = window.confirm(`${playerName}님이 승리했습니다! 🥳\n이 멤버 그대로 새 게임을 시작하시겠습니까?\n(취소 시 멤버 선택 화면으로 돌아갑니다)`);
+      
+      // 승리 기록 저장 (API 및 로컬)
+      await gameState.recordWin(playerName, selectedPlayers);
+      
+      if (isNewGame) {
+        // 새 게임 시작: 타이머 멈춤 (새로 턴 시작 시 버튼 클릭)
+        timer.stop();
+      } else {
+        // 멤버 선택 화면으로 돌아감
+        handleResetPlayers();
+      }
+    }, 400);
   };
 
   // Undo 처리
