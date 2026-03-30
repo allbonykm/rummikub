@@ -7,14 +7,14 @@ import { PLAYERS } from '../../utils/players';
  */
 export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 py-20 text-center">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 pt-20 pb-40 text-center">
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         className="w-full max-w-2xl"
       >
         <div style={{ marginBottom: '16px' }}>
-          <h2 className="text-6xl font-black font-headline text-on-background tracking-tighter" style={{ marginBottom: '16px' }}>루미큐브 할 사람</h2>
+          <h2 className="text-6xl font-black font-headline text-on-background tracking-tighter" style={{ marginBottom: '16px' }}>Let's play Rummikub</h2>
           <p className="text-on-surface-variant text-lg font-medium opacity-70 decoration-primary/20 underline-offset-10 underline decoration-2">함께 루미큐브할 사람을 선택해 주세요 (2~5명)</p>
         </div>
 

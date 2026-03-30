@@ -42,7 +42,7 @@ export default function StatsPage({ stats }) {
   }
 
   return (
-    <main className="pt-6 md:pt-10 pb-24 px-4 md:px-10 max-w-4xl w-full mx-auto">
+    <main className="pt-6 md:pt-10 pb-32 px-4 md:px-10 max-w-4xl w-full mx-auto">
       {/* Header */}
       <header className="text-center" style={{ marginBottom: '16px' }}>
         <div className="h-6 md:h-8" />
