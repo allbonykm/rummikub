@@ -1,20 +1,28 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Undo2, History, Menu, X } from 'lucide-react';
+import { Undo2, History, Menu, X, Users } from 'lucide-react';
 
 /**
  * 상단 네비게이션 바
  */
-export function TopNav({ onUndo, canUndo }) {
+export function TopNav({ onUndo, canUndo, onReset, isGameActive }) {
   return (
-    <nav className="bg-surface flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+    <nav className="bg-surface flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50 max-w-5xl mx-auto">
       <div className="flex items-center gap-4">
-        <span className="material-symbols-outlined text-primary-container">menu</span>
         <h1 className="text-2xl font-bold tracking-tight font-headline text-on-background">
           ELITE TRACKER
         </h1>
       </div>
       <div className="flex items-center gap-6">
+        {isGameActive && (
+          <button
+            onClick={onReset}
+            className="text-on-surface-variant hover:text-secondary transition-colors"
+            title="멤버 재선택"
+          >
+            <Users size={22} />
+          </button>
+        )}
         <button
           onClick={onUndo}
           disabled={!canUndo}
@@ -23,9 +31,6 @@ export function TopNav({ onUndo, canUndo }) {
         >
           <Undo2 size={22} />
         </button>
-        <span className="material-symbols-outlined text-primary-container cursor-pointer">
-          history
-        </span>
       </div>
     </nav>
   );

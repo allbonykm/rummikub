@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TopNav, BottomNav } from './components/Layout/Navigation';
 import ArenaPage from './components/Arena/ArenaPage';
+import PlayerSelection from './components/Arena/PlayerSelection';
 import StatsPage from './components/Stats/StatsPage';
 import VaultPage from './components/Vault/VaultPage';
 import useTimer from './hooks/useTimer';
@@ -11,6 +12,8 @@ import { PLAYERS } from './utils/players';
 
 function App() {
   const [activeTab, setActiveTab] = useState('arena');
+  const [selectedPlayerIds, setSelectedPlayerIds] = useState([]);
+  const [isGameActive, setIsGameActive] = useState(false);
   const timer = useTimer(60);
   const wakeLock = useWakeLock();
   const gameState = useGameState();
@@ -22,6 +25,28 @@ function App() {
     }
   }, [wakeLock.isSupported]);
 
+  // 플레이어 선택 토글
+  const handleTogglePlayer = (id) => {
+    setSelectedPlayerIds((prev) =>
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
+    );
+  };
+
+  // 게임 시작
+  const handleStartGame = () => {
+    if (selectedPlayerIds.length >= 2) {
+      setIsGameActive(true);
+    }
+  };
+
+  // 플레이어 재선택 (리셋)
+  const handleResetPlayers = () => {
+    setIsGameActive(false);
+    timer.stop();
+  };
+
+  const selectedPlayers = PLAYERS.filter((p) => selectedPlayerIds.includes(p.id));
+
   // 등록 처리
   const handleRegister = (playerName) => {
     gameState.registerFirst(playerName);
@@ -29,7 +54,7 @@ function App() {
 
   // 승리 처리
   const handleWin = async (playerName) => {
-    await gameState.recordWin(playerName, PLAYERS);
+    await gameState.recordWin(playerName, selectedPlayers);
     timer.stop();
   };
 
@@ -49,7 +74,12 @@ function App() {
   return (
     <div className="min-h-dvh bg-surface text-on-surface font-body selection:bg-primary/30">
       {/* Top Navigation */}
-      <TopNav onUndo={handleUndo} canUndo={gameState.history.length > 0} />
+      <TopNav
+        onUndo={handleUndo}
+        canUndo={gameState.history.length > 0}
+        onReset={handleResetPlayers}
+        isGameActive={isGameActive}
+      />
 
       {/* Page Content */}
       <AnimatePresence mode="wait">
@@ -61,13 +91,23 @@ function App() {
             exit="out"
             variants={pageVariants}
             transition={{ duration: 0.2 }}
+            className="w-full flex justify-center"
           >
-            <ArenaPage
-              timer={timer}
-              currentGame={gameState.currentGame}
-              onRegister={handleRegister}
-              onWin={handleWin}
-            />
+            {!isGameActive ? (
+              <PlayerSelection
+                selectedIds={selectedPlayerIds}
+                onToggle={handleTogglePlayer}
+                onStart={handleStartGame}
+              />
+            ) : (
+              <ArenaPage
+                timer={timer}
+                players={selectedPlayers}
+                currentGame={gameState.currentGame}
+                onRegister={handleRegister}
+                onWin={handleWin}
+              />
+            )}
           </motion.div>
         )}
         {activeTab === 'stats' && (

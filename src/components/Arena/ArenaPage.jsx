@@ -8,6 +8,7 @@ import { PLAYERS } from '../../utils/players';
  */
 export default function ArenaPage({
   timer,
+  players,
   currentGame,
   onRegister,
   onWin,
@@ -30,8 +31,8 @@ export default function ArenaPage({
       />
 
       {/* Player Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {PLAYERS.map((player, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center">
+        {players.map((player, index) => (
           <PlayerCard
             key={player.id}
             player={player}
@@ -43,7 +44,6 @@ export default function ArenaPage({
             disabled={false}
           />
         ))}
-        <EmptySlot />
       </div>
     </main>
   );
