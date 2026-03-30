@@ -23,9 +23,19 @@ export default function useGameState() {
     setIsLoading(true);
     try {
       const serverData = await fetchStats();
-      if (serverData && Array.isArray(serverData)) {
+      let records = [];
+      
+      if (Array.isArray(serverData)) {
+        records = serverData;
+      } else if (serverData && serverData.data && Array.isArray(serverData.data)) {
+        records = serverData.data;
+      } else if (serverData && serverData.records && Array.isArray(serverData.records)) {
+        records = serverData.records;
+      }
+
+      if (records.length > 0) {
         // 서버 데이터는 appendRow로 인해 과거->최신 순이므로 역순(최신순)으로 정렬
-        const formattedData = [...serverData].reverse();
+        const formattedData = [...records].reverse();
         setHistory(formattedData);
       }
     } catch (e) {

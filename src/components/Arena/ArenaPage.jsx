@@ -55,7 +55,10 @@ export default function ArenaPage({
     let todayWins = 0;
     if (history) {
       history.forEach((record) => {
-        if (record.winner === playerName && !record.isDeleted) {
+        // GAS에서 isDeleted가 문자열 'TRUE'/'FALSE'로 내려올 수 있으므로 방어 코드 작성
+        const isDeleted = record.isDeleted === true || String(record.isDeleted).toUpperCase() === 'TRUE';
+        
+        if (record.winner === playerName && !isDeleted) {
           allTime++;
           const recordDate = new Date(record.timestamp).toDateString();
           if (recordDate === todayStr) {
