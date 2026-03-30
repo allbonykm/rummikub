@@ -14,6 +14,7 @@ export default function PlayerCard({
   onWin,
   disabled,
   dragHandleProps,
+  playerStats,
 }) {
   const [imgError, setImgError] = useState(false);
   const borderColors = [
@@ -100,6 +101,20 @@ export default function PlayerCard({
           )}
         </div>
       </div>
+
+      {/* 실시간 승리 전적 표시 영역 */}
+      {playerStats && (
+        <div className="flex flex-col items-center justify-center bg-gradient-to-b from-surface-container-highest/10 to-surface-container-lowest/30 rounded-3xl py-6 my-2 border border-white/5 shadow-inner">
+          <div className="text-[11px] font-label font-bold tracking-widest uppercase text-on-surface-variant mb-1 opacity-80">오늘의 승리</div>
+          <div className="text-7xl font-black font-headline tracking-tighter text-primary-fixed leading-none drop-shadow-md">
+            {playerStats.todayWins}
+          </div>
+          <div className="text-xs font-medium text-on-surface-variant mt-4 pt-3 border-t border-white/5 w-4/5 text-center flex items-center justify-center gap-2">
+            <span>역대 통산 승리</span>
+            <span className="text-on-surface font-black text-sm bg-surface-container-highest px-2 py-0.5 rounded-md">{playerStats.allTime}</span>
+          </div>
+        </div>
+      )}
 
       {/* 액션 버튼 */}
       <div className="grid grid-cols-2 gap-5 mt-4">

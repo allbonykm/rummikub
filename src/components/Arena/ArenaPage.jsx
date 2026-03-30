@@ -5,7 +5,7 @@ import PlayerCard from './PlayerCard';
 /**
  * 드래그 핸들을 분리하여 모바일 스크롤 간섭을 막는 커스텀 Reorder 아이템
  */
-function DraggablePlayerCard({ player, index, currentGame, onRegister, onWin }) {
+function DraggablePlayerCard({ player, index, currentGame, playerStats, onRegister, onWin }) {
   const controls = useDragControls();
 
   return (
@@ -15,6 +15,7 @@ function DraggablePlayerCard({ player, index, currentGame, onRegister, onWin }) 
         index={index}
         isFirstRegistered={currentGame.firstRegister === player.name}
         isWinner={currentGame.winner === player.name}
+        playerStats={playerStats}
         onRegister={onRegister}
         onWin={onWin}
         disabled={false}
@@ -32,11 +33,30 @@ export default function ArenaPage({
   players,
   setPlayers,
   currentGame,
+  history,
   onRegister,
   onWin,
 }) {
   const handleTimerToggle = () => {
     timer.reset();
+  };
+
+  const todayStr = new Date().toDateString();
+  const getPlayerStats = (playerName) => {
+    let allTime = 0;
+    let todayWins = 0;
+    if (history) {
+      history.forEach((record) => {
+        if (record.winner === playerName && !record.isDeleted) {
+          allTime++;
+          const recordDate = new Date(record.timestamp).toDateString();
+          if (recordDate === todayStr) {
+            todayWins++;
+          }
+        }
+      });
+    }
+    return { allTime, todayWins };
   };
 
   return (
@@ -63,6 +83,7 @@ export default function ArenaPage({
             player={player}
             index={index}
             currentGame={currentGame}
+            playerStats={getPlayerStats(player.name)}
             onRegister={onRegister}
             onWin={onWin}
           />

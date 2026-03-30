@@ -143,6 +143,7 @@ function App() {
                 players={orderedPlayers}
                 setPlayers={setOrderedPlayers}
                 currentGame={gameState.currentGame}
+                history={gameState.history}
                 onRegister={handleRegister}
                 onWin={handleWin}
               />
