@@ -18,7 +18,7 @@ export async function saveGameRecord(record) {
   try {
     const response = await fetch(GAS_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'addRecord',
         data: record,
@@ -43,7 +43,7 @@ export async function undoLastRecord(recordId) {
   try {
     const response = await fetch(GAS_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'undoRecord',
         id: recordId,
