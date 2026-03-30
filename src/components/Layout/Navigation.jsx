@@ -10,7 +10,7 @@ export function TopNav({ onUndo, canUndo, onReset, isGameActive }) {
     <nav className="bg-surface flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50 max-w-5xl mx-auto">
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold tracking-tight font-headline text-on-background">
-          ELITE TRACKER
+          우리끼리 루미큐브
         </h1>
       </div>
       <div className="flex items-center gap-6">
