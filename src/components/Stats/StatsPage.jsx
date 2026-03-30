@@ -121,25 +121,28 @@ export default function StatsPage({ stats }) {
         </div>
 
         {/* Right Column: Stats Cards */}
-        <div className="lg:col-span-5 flex flex-col gap-20">
+        <div className="lg:col-span-5 flex flex-col gap-24">
           {/* Efficiency Metric */}
-          <div className="bg-surface-container-low rounded-[4rem] p-[5rem] flex flex-col justify-between border-t border-r border-b border-white/5 border-l-[16px] border-l-primary-container shadow-2xl min-h-[500px] transition-all duration-500 hover:scale-[1.02]">
-            <div className="space-y-8">
-              <h3 className="text-sm font-black font-label tracking-[0.5em] text-primary-container/80 uppercase">
+          <div 
+            style={{ padding: '6rem', minHeight: '600px' }}
+            className="bg-surface-container-low rounded-[5rem] flex flex-col justify-between border-t border-r border-b border-white/5 border-l-[20px] border-l-primary-container shadow-2xl transition-all duration-500 hover:scale-[1.02]"
+          >
+            <div className="space-y-12">
+              <h3 className="text-base font-black font-label tracking-[0.6em] text-primary-container/80 uppercase">
                 EFFICIENCY METRIC
               </h3>
-              <p className="text-5xl font-black font-headline italic tracking-tighter leading-[1.1]">첫 등록시<br />승리 비율</p>
+              <p className="text-6xl font-black font-headline italic tracking-tighter leading-[1.2]">첫 등록시<br />승리 비율</p>
             </div>
-            <div className="flex items-center gap-16 mt-auto">
+            <div className="flex items-center gap-20 mt-auto">
               {/* Gauge */}
-              <div className="relative w-44 h-44 flex items-center justify-center flex-shrink-0">
+              <div className="relative w-48 h-48 flex items-center justify-center flex-shrink-0">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 128 128">
-                  <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="16" />
+                  <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="18" />
                   <circle
                     cx="64" cy="64" r="54"
                     fill="transparent"
                     stroke="var(--color-primary-container)"
-                    strokeWidth="16"
+                    strokeWidth="18"
                     strokeDasharray={2 * Math.PI * 54}
                     strokeDashoffset={2 * Math.PI * 54 * (1 - avgRate / 100)}
                     strokeLinecap="round"
@@ -147,37 +150,40 @@ export default function StatsPage({ stats }) {
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center">
-                  <span className="text-5xl font-black font-headline tracking-tighter">{avgRate}%</span>
+                  <span className="text-6xl font-black font-headline tracking-tighter">{avgRate}%</span>
                 </div>
               </div>
-              <div className="space-y-8 flex-1">
-                <p className="text-xl text-on-surface-variant/80 font-medium italic leading-relaxed">
-                  "빠른 등록은 전장 지배의 시작입니다."
+              <div className="space-y-10 flex-1">
+                <p className="text-2xl text-on-surface-variant/80 font-medium italic leading-relaxed">
+                  "빠른 등록은 승리로 가는 가장 확실한 전략입니다."
                 </p>
               </div>
             </div>
           </div>
 
           {/* Rivalry Analysis */}
-          <div className="bg-surface-container-low rounded-[4rem] p-[5rem] space-y-16 border-t border-r border-b border-white/5 border-l-[16px] border-l-secondary-container shadow-2xl min-h-[500px] transition-all duration-500 hover:scale-[1.02]">
-            <div className="space-y-8">
-              <h3 className="text-sm font-black font-label tracking-[0.5em] text-secondary-container/80 uppercase">
+          <div 
+            style={{ padding: '6rem', minHeight: '600px' }}
+            className="bg-surface-container-low rounded-[5rem] space-y-20 border-t border-r border-b border-white/5 border-l-[20px] border-l-secondary-container shadow-2xl transition-all duration-500 hover:scale-[1.02]"
+          >
+            <div className="space-y-12">
+              <h3 className="text-base font-black font-label tracking-[0.6em] text-secondary-container/80 uppercase">
                 RIVALRY ANALYSIS
               </h3>
-              <p className="text-5xl font-black font-headline italic tracking-tighter leading-[1.1]">승률 분포</p>
+              <p className="text-6xl font-black font-headline italic tracking-tighter leading-[1.2]">승률 분포</p>
             </div>
-            <div className="space-y-12">
+            <div className="space-y-16">
               {mvpRanking.slice(0, 4).map((entry, idx) => {
                 const rate = totalGames > 0 ? Math.round((entry.wins / totalGames) * 100) : 0;
                 return (
-                  <div key={entry.name} className="space-y-5">
+                  <div key={entry.name} className="space-y-6">
                     <div className="flex justify-between items-end">
-                      <span className="text-2xl font-black font-headline text-on-surface italic">
+                      <span className="text-3xl font-black font-headline text-on-surface italic">
                         {idx + 1}. {entry.name}
                       </span>
-                      <span className="text-secondary font-black text-lg tracking-widest">{rate}% WIN RATE</span>
+                      <span className="text-secondary font-black text-xl tracking-widest">{rate}% WIN RATE</span>
                     </div>
-                    <div className="h-8 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-1.5">
+                    <div className="h-10 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-2">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${rate}%` }}
@@ -189,8 +195,8 @@ export default function StatsPage({ stats }) {
                 );
               })}
               {mvpRanking.length === 0 && (
-                <div className="py-24 text-center italic text-2xl opacity-20 flex flex-col items-center gap-6">
-                  <div className="w-16 h-1 bg-white/10 rounded-full animate-pulse" />
+                <div className="py-24 text-center italic text-3xl opacity-20 flex flex-col items-center gap-8">
+                  <div className="w-24 h-1.5 bg-white/10 rounded-full animate-pulse" />
                   데이터 수집 중...
                 </div>
               )}
