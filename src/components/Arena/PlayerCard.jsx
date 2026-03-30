@@ -75,11 +75,8 @@ export default function PlayerCard({
           </div>
         </div>
 
-        <div className="flex flex-col gap-0.5">
-          <h3 className="font-headline font-black text-2xl text-on-surface tracking-tight">{player.name}</h3>
-          <p className="text-[10px] font-label text-primary-container/80 font-bold tracking-[0.2em] uppercase">
-            {player.title}
-          </p>
+        <div className="flex flex-col">
+          <h3 className="font-headline font-black text-3xl text-on-surface tracking-tight">{player.name}</h3>
         </div>
 
         {/* 상태 인디케이터 */}
@@ -88,46 +85,46 @@ export default function PlayerCard({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="bg-primary-container text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider shadow-lg"
+              className="bg-primary-container text-white text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-wider shadow-lg"
             >
-              등록
+              등록됨
             </motion.div>
           )}
           {isWinner && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="bg-tertiary text-on-tertiary text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider shadow-lg"
+              className="bg-tertiary text-on-tertiary text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-wider shadow-lg"
             >
-              🏆 WIN
+              🏆 WINNER
             </motion.div>
           )}
         </div>
       </div>
 
       {/* 액션 버튼 */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-5 mt-4">
         <button
           onClick={() => onRegister(player.name)}
           disabled={disabled || isFirstRegistered}
-          className={`font-label py-4 rounded-xl text-sm font-black tracking-widest transition-all active:scale-95 shadow-sm ${
+          className={`font-label py-6 rounded-full text-lg font-black tracking-widest transition-all active:scale-95 shadow-sm border-2 ${
             isFirstRegistered
-              ? 'bg-primary-container/10 text-primary-container/50 cursor-default border border-primary-container/20'
-              : 'bg-surface-container-highest text-secondary border border-secondary/10 hover:bg-surface-bright hover:shadow-md'
+              ? 'bg-primary-container/10 text-primary-container/30 border-primary-container/20 cursor-default'
+              : 'bg-surface-container-highest text-secondary border-secondary/20 hover:bg-surface-bright hover:shadow-xl'
           }`}
         >
-          등록완료
+          등록
         </button>
         <button
           onClick={() => onWin(player.name)}
           disabled={disabled}
-          className={`font-label py-4 rounded-xl text-sm font-black tracking-widest shadow-xl active:scale-95 transition-all ${
+          className={`font-label py-6 rounded-full text-lg font-black tracking-widest shadow-2xl active:scale-95 transition-all border-2 ${
             isWinner
-              ? 'bg-tertiary text-on-tertiary'
-              : 'bg-gradient-to-br from-primary-container to-[#930016] text-on-primary-container hover:brightness-110'
+              ? 'bg-tertiary text-on-tertiary border-tertiary/50'
+              : 'bg-gradient-to-br from-primary-container to-[#930016] text-white border-primary-container/30 hover:brightness-110'
           }`}
         >
-          승리확정
+          승리
         </button>
       </div>
     </motion.div>
