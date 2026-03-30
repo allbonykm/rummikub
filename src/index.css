@@ -56,9 +56,9 @@
   --color-outline-variant: #5d3f3d;
   --color-surface-tint: #ffb3ae;
 
-  --font-headline: 'Noto Serif KR', serif;
-  --font-body: 'Noto Serif KR', serif;
-  --font-label: 'Noto Serif KR', serif;
+  --font-headline: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-body: "Pretendard Variable", Pretendard, sans-serif;
+  --font-label: "Pretendard Variable", Pretendard, sans-serif;
 }
 
 /* ===== Base Styles ===== */

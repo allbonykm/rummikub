@@ -39,16 +39,14 @@ export default function PlayerCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
-      className={`bg-surface-container-low p-8 rounded-2xl border flex flex-col gap-8 relative overflow-hidden group transition-all ${
+      className={`bg-surface-container-low p-10 rounded-3xl border flex flex-col gap-10 relative overflow-hidden transition-all duration-300 ${
         isWinner
-          ? 'border-tertiary/40 shadow-[0_0_30px_rgba(233,196,0,0.1)]'
+          ? 'border-tertiary/60 shadow-[0_0_50px_rgba(233,196,0,0.15)] ring-1 ring-tertiary/20'
           : isFirstRegistered
-          ? 'border-primary-container/40'
-          : 'border-outline-variant/15 hover:border-outline-variant/40'
+          ? 'border-primary-container/60 shadow-[0_0_50px_rgba(230,25,46,0.1)] ring-1 ring-primary-container/20'
+          : 'border-white/5 hover:border-white/20'
       }`}
     >
-      {/* 꼭짓점 장식 */}
-      <div className={`absolute top-0 right-0 w-20 h-20 ${accentBg[colorIndex]}/10 rounded-bl-3xl pointer-events-none`} />
 
       <div className="flex items-center gap-6">
         <div className="relative">
