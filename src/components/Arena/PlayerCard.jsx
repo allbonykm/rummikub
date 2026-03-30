@@ -13,6 +13,7 @@ export default function PlayerCard({
   onRegister,
   onWin,
   disabled,
+  dragHandleProps,
 }) {
   const [imgError, setImgError] = useState(false);
   const borderColors = [
@@ -39,8 +40,22 @@ export default function PlayerCard({
           : 'border-white/5 hover:border-white/20'
       }`}
     >
+      {/* 턴 순번 및 드래그 핸들 (모바일 최적화) */}
+      {dragHandleProps && (
+        <>
+          <div className="absolute top-4 left-6 z-10 text-on-surface/30 font-black text-4xl italic tracking-tighter mix-blend-overlay">
+            #{index + 1}
+          </div>
+          <div 
+            className="absolute top-8 right-8 z-20 w-12 h-12 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none text-on-surface-variant hover:bg-surface-bright/50 rounded-xl bg-surface-container-highest/50 shadow-sm border border-white/5"
+            {...dragHandleProps}
+          >
+            <span className="material-symbols-outlined pointer-events-none" style={{ fontSize: '32px' }}>drag_handle</span>
+          </div>
+        </>
+      )}
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 mt-2">
         <div className="relative">
           {/* 프로필 이미지 또는 이니셜 아바타 */}
           {!imgError ? (

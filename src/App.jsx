@@ -13,6 +13,7 @@ import { PLAYERS } from './utils/players';
 function App() {
   const [activeTab, setActiveTab] = useState('arena');
   const [selectedPlayerIds, setSelectedPlayerIds] = useState([]);
+  const [orderedPlayers, setOrderedPlayers] = useState([]);
   const [isGameActive, setIsGameActive] = useState(false);
   const timer = useTimer(60);
   const wakeLock = useWakeLock();
@@ -35,6 +36,10 @@ function App() {
   // 게임 시작
   const handleStartGame = () => {
     if (selectedPlayerIds.length >= 2) {
+      if (orderedPlayers.length === 0 || orderedPlayers.length !== selectedPlayerIds.length) {
+        const initialOrdered = PLAYERS.filter((p) => selectedPlayerIds.includes(p.id));
+        setOrderedPlayers(initialOrdered);
+      }
       setIsGameActive(true);
     }
   };
@@ -73,8 +78,17 @@ function App() {
       await gameState.recordWin(playerName, selectedPlayers);
       
       if (isNewGame) {
-        // 새 게임 시작: 타이머 멈춤 (새로 턴 시작 시 버튼 클릭)
+        // 새 게임 시작: 타이머 멈춤
         timer.stop();
+        // 승리자를 맨 위(1번) 자리로 스와핑
+        setOrderedPlayers((prev) => {
+          const winnerIndex = prev.findIndex((p) => p.name === playerName);
+          if (winnerIndex <= 0) return prev;
+          const newOrder = [...prev];
+          const [winnerItem] = newOrder.splice(winnerIndex, 1);
+          newOrder.unshift(winnerItem);
+          return newOrder;
+        });
       } else {
         // 멤버 선택 화면으로 돌아감
         handleResetPlayers();
@@ -126,7 +140,8 @@ function App() {
             ) : (
               <ArenaPage
                 timer={timer}
-                players={selectedPlayers}
+                players={orderedPlayers}
+                setPlayers={setOrderedPlayers}
                 currentGame={gameState.currentGame}
                 onRegister={handleRegister}
                 onWin={handleWin}
