@@ -39,18 +39,18 @@ export default function PlayerCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
-      className={`bg-surface-container-low p-5 rounded-xl border flex flex-col gap-5 relative overflow-hidden group transition-all ${
+      className={`bg-surface-container-low p-8 rounded-2xl border flex flex-col gap-8 relative overflow-hidden group transition-all ${
         isWinner
-          ? 'border-tertiary/40 ring-2 ring-tertiary/20'
+          ? 'border-tertiary/40 shadow-[0_0_30px_rgba(233,196,0,0.1)]'
           : isFirstRegistered
-          ? 'border-primary-container/40 ring-2 ring-primary-container/20'
-          : 'border-outline-variant/15'
+          ? 'border-primary-container/40'
+          : 'border-outline-variant/15 hover:border-outline-variant/40'
       }`}
     >
       {/* 꼭짓점 장식 */}
-      <div className={`absolute top-0 right-0 w-14 h-14 ${accentBg[colorIndex]}/5 rounded-bl-full pointer-events-none`} />
+      <div className={`absolute top-0 right-0 w-20 h-20 ${accentBg[colorIndex]}/10 rounded-bl-3xl pointer-events-none`} />
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         <div className="relative">
           {/* 프로필 이미지 또는 이니셜 아바타 */}
           {!imgError ? (
@@ -58,74 +58,76 @@ export default function PlayerCard({
               src={`/assets/profiles/${player.name}.webp`}
               alt={player.name}
               onError={() => setImgError(true)}
-              className={`w-14 h-14 rounded-full object-cover border-2 ${borderColors[colorIndex]} bg-surface-container-highest`}
+              className={`w-20 h-20 rounded-full object-cover border-2 ${borderColors[colorIndex]} bg-surface-container-highest shadow-xl`}
             />
           ) : (
             <div
-              className={`w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold font-headline border-2 ${borderColors[colorIndex]} bg-surface-container-highest text-on-surface`}
+              className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl font-black font-headline border-2 ${borderColors[colorIndex]} bg-surface-container-highest text-on-surface shadow-xl`}
             >
               {initials}
             </div>
           )}
           {/* 번호 뱃지 */}
           <div
-            className={`absolute -bottom-1 -right-1 ${accentBg[colorIndex]} text-on-primary-fixed w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold`}
+            className={`absolute -bottom-1 -right-1 ${accentBg[colorIndex]} text-on-primary-fixed w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shadow-lg`}
           >
             {index + 1}
           </div>
         </div>
 
-        <div>
-          <h3 className="font-headline font-bold text-lg text-on-surface">{player.name}</h3>
-          <p className="text-[10px] font-label text-on-surface-variant tracking-wider uppercase">
+        <div className="flex flex-col gap-0.5">
+          <h3 className="font-headline font-black text-2xl text-on-surface tracking-tight">{player.name}</h3>
+          <p className="text-[10px] font-label text-primary-container/80 font-bold tracking-[0.2em] uppercase">
             {player.title}
           </p>
         </div>
 
         {/* 상태 인디케이터 */}
-        {isFirstRegistered && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="ml-auto bg-primary-container/20 text-primary-container text-[9px] font-bold px-2 py-1 rounded-full uppercase tracking-wider"
-          >
-            등록
-          </motion.div>
-        )}
-        {isWinner && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="ml-auto bg-tertiary/20 text-tertiary text-[9px] font-bold px-2 py-1 rounded-full uppercase tracking-wider"
-          >
-            🏆 WIN
-          </motion.div>
-        )}
+        <div className="ml-auto flex flex-col items-end gap-2">
+          {isFirstRegistered && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="bg-primary-container text-white text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider shadow-lg"
+            >
+              등록
+            </motion.div>
+          )}
+          {isWinner && (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="bg-tertiary text-on-tertiary text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider shadow-lg"
+            >
+              🏆 WIN
+            </motion.div>
+          )}
+        </div>
       </div>
 
       {/* 액션 버튼 */}
-      <div className="grid grid-cols-2 gap-3 mt-auto">
+      <div className="grid grid-cols-2 gap-4">
         <button
           onClick={() => onRegister(player.name)}
           disabled={disabled || isFirstRegistered}
-          className={`font-label py-3 rounded-lg text-sm font-bold tracking-tight transition-all active:scale-95 ${
+          className={`font-label py-4 rounded-xl text-sm font-black tracking-widest transition-all active:scale-95 shadow-sm ${
             isFirstRegistered
-              ? 'bg-primary-container/20 text-primary-container cursor-default'
-              : 'bg-surface-container-highest text-secondary hover:bg-surface-bright'
+              ? 'bg-primary-container/10 text-primary-container/50 cursor-default border border-primary-container/20'
+              : 'bg-surface-container-highest text-secondary border border-secondary/10 hover:bg-surface-bright hover:shadow-md'
           }`}
         >
-          등록
+          등록완료
         </button>
         <button
           onClick={() => onWin(player.name)}
           disabled={disabled}
-          className={`font-label py-3 rounded-lg text-sm font-bold tracking-tight shadow-md active:scale-95 transition-all ${
+          className={`font-label py-4 rounded-xl text-sm font-black tracking-widest shadow-xl active:scale-95 transition-all ${
             isWinner
               ? 'bg-tertiary text-on-tertiary'
               : 'bg-gradient-to-br from-primary-container to-[#930016] text-on-primary-container hover:brightness-110'
           }`}
         >
-          승리
+          승리확정
         </button>
       </div>
     </motion.div>
