@@ -33,7 +33,7 @@ export default function PlayerCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
-      className={`bg-surface-container-low p-10 rounded-3xl border flex flex-col gap-10 relative overflow-hidden transition-all duration-300 ${
+      className={`bg-surface-container-low p-6 sm:p-8 rounded-3xl border flex flex-col gap-4 relative transition-all duration-300 w-full ${
         isWinner
           ? 'border-tertiary/60 shadow-[0_0_50px_rgba(233,196,0,0.15)] ring-1 ring-tertiary/20'
           : isFirstRegistered
@@ -41,51 +41,52 @@ export default function PlayerCard({
           : 'border-white/5 hover:border-white/20'
       }`}
     >
-      {/* 턴 순번 및 드래그 핸들 (모바일 최적화) */}
+      {/* 턴 순번 뱃지 (카드 밖 좌측 상단 모서리에 걸침) */}
       {dragHandleProps && (
-        <>
-          <div className="absolute top-4 left-6 z-10 text-on-surface/30 font-black text-4xl italic tracking-tighter mix-blend-overlay">
-            #{index + 1}
-          </div>
-          <div 
-            className="absolute top-8 right-8 z-20 w-12 h-12 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none text-on-surface-variant hover:bg-surface-bright/50 rounded-xl bg-surface-container-highest/50 shadow-sm border border-white/5"
-            {...dragHandleProps}
-          >
-            <span className="material-symbols-outlined pointer-events-none" style={{ fontSize: '32px' }}>drag_handle</span>
-          </div>
-        </>
+        <div className="absolute -top-4 -left-4 z-30 bg-primary/90 text-on-primary font-black text-xl w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-[3px] border-surface">
+          {index + 1}
+        </div>
       )}
 
-      <div className="flex items-center gap-6 mt-2">
-        <div className="relative">
+      {/* 상단 프로필 및 핸들 영역 */}
+      <div className="flex items-center gap-4">
+        <div className="relative shrink-0">
           {/* 프로필 이미지 또는 이니셜 아바타 */}
           {!imgError ? (
             <img
               src={`/assets/profiles/${player.name}.webp`}
               alt={player.name}
               onError={() => setImgError(true)}
-              className={`w-20 h-20 rounded-full object-cover border-2 ${borderColors[colorIndex]} bg-surface-container-highest shadow-xl`}
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 ${borderColors[colorIndex]} bg-surface-container-highest shadow-xl`}
             />
           ) : (
             <div
-              className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl font-black font-headline border-2 ${borderColors[colorIndex]} bg-surface-container-highest text-on-surface shadow-xl`}
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-black font-headline border-2 ${borderColors[colorIndex]} bg-surface-container-highest text-on-surface shadow-xl`}
             >
               {initials}
             </div>
           )}
         </div>
 
-        <div className="flex flex-col">
-          <h3 className="font-headline font-black text-3xl text-on-surface tracking-tight">{player.name}</h3>
+        <div className="flex flex-col flex-1 min-w-0">
+          <h3 className="font-headline font-black text-2xl sm:text-3xl text-on-surface tracking-tight truncate">{player.name}</h3>
         </div>
 
-        {/* 상태 인디케이터 */}
-        <div className="ml-auto flex flex-col items-end gap-2">
+        {/* 우측 인디케이터 및 드래그 핸들 */}
+        <div className="ml-auto flex flex-col items-end gap-3 shrink-0">
+          {dragHandleProps && (
+            <div 
+              className="w-12 h-10 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none text-on-surface-variant hover:bg-surface-bright rounded-xl bg-surface-container-high shadow-md border border-white/10 transition-colors"
+              {...dragHandleProps}
+            >
+              <span className="material-symbols-outlined pointer-events-none" style={{ fontSize: '28px' }}>drag_handle</span>
+            </div>
+          )}
           {isFirstRegistered && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="bg-primary-container text-white text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-wider shadow-lg"
+              className="bg-primary-container text-white text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg"
             >
               등록됨
             </motion.div>
@@ -94,7 +95,7 @@ export default function PlayerCard({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="bg-tertiary text-on-tertiary text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-wider shadow-lg"
+              className="bg-tertiary text-on-tertiary text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg"
             >
               🏆 WINNER
             </motion.div>

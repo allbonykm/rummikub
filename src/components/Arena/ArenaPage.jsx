@@ -41,6 +41,13 @@ export default function ArenaPage({
     timer.reset();
   };
 
+  const [isLandscape, setIsLandscape] = useState(window.innerWidth > 768);
+  useEffect(() => {
+    const handleResize = () => setIsLandscape(window.innerWidth > 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const todayStr = new Date().toDateString();
   const getPlayerStats = (playerName) => {
     let allTime = 0;
@@ -60,7 +67,7 @@ export default function ArenaPage({
   };
 
   return (
-    <main className="max-w-4xl mx-auto px-6 pt-12 pb-32">
+    <main className="max-w-[1400px] w-full mx-auto px-4 md:px-8 pt-12 pb-32">
       {/* Timer Section */}
       <Timer
         seconds={timer.seconds}
@@ -72,21 +79,26 @@ export default function ArenaPage({
 
       {/* Player List (Drag & Drop Reorder) */}
       <Reorder.Group 
-        axis="y" 
+        axis={isLandscape ? "x" : "y"} 
         values={players} 
         onReorder={setPlayers} 
-        className="flex flex-col gap-10 mt-20"
+        className={`flex mt-20 md:mt-16 w-full ${
+          isLandscape 
+            ? "flex-row justify-center items-stretch gap-6" 
+            : "flex-col items-center gap-10"
+        }`}
       >
         {players.map((player, index) => (
-          <DraggablePlayerCard
-            key={player.id}
-            player={player}
-            index={index}
-            currentGame={currentGame}
-            playerStats={getPlayerStats(player.name)}
-            onRegister={onRegister}
-            onWin={onWin}
-          />
+          <div key={player.id} className={isLandscape ? "w-[280px] lg:w-[320px] shrink-0" : "w-full max-w-sm"}>
+            <DraggablePlayerCard
+              player={player}
+              index={index}
+              currentGame={currentGame}
+              playerStats={getPlayerStats(player.name)}
+              onRegister={onRegister}
+              onWin={onWin}
+            />
+          </div>
         ))}
       </Reorder.Group>
     </main>
