@@ -76,10 +76,10 @@ export default function PlayerCard({
         <div className="ml-auto flex flex-col items-end gap-3 shrink-0">
           {dragHandleProps && (
             <div 
-              className="w-12 h-10 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none text-on-surface-variant hover:bg-surface-bright rounded-xl bg-surface-container-high shadow-md border border-white/10 transition-colors"
+              className="w-12 h-10 mr-2 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none text-on-surface/30 hover:text-on-surface hover:bg-white/10 rounded-xl bg-transparent transition-colors"
               {...dragHandleProps}
             >
-              <span className="material-symbols-outlined pointer-events-none" style={{ fontSize: '28px' }}>drag_handle</span>
+              <span className="material-symbols-outlined pointer-events-none" style={{ fontSize: '30px' }}>drag_handle</span>
             </div>
           )}
           {isFirstRegistered && (
