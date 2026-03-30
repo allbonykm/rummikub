@@ -71,7 +71,7 @@ export default function ArenaPage({
   };
 
   return (
-    <main className="max-w-[1400px] w-full mx-auto px-8 md:px-12 pt-12 pb-32">
+    <main className="max-w-[1400px] w-full mx-auto px-6 md:px-12 pt-12" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
       {/* Timer Section */}
       <Timer
         seconds={timer.seconds}
