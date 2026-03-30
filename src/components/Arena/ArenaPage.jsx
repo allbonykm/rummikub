@@ -14,9 +14,7 @@ export default function ArenaPage({
   onWin,
 }) {
   const handleTimerToggle = () => {
-    if (timer.isAlarm || !timer.isRunning) {
-      timer.reset();
-    }
+    timer.reset();
   };
 
   return (
