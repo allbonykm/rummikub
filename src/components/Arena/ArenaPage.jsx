@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Reorder, useDragControls } from 'framer-motion';
 import Timer from './Timer';
 import PlayerCard from './PlayerCard';
@@ -5,11 +6,11 @@ import PlayerCard from './PlayerCard';
 /**
  * 드래그 핸들을 분리하여 모바일 스크롤 간섭을 막는 커스텀 Reorder 아이템
  */
-function DraggablePlayerCard({ player, index, currentGame, playerStats, onRegister, onWin }) {
+function DraggablePlayerCard({ player, index, currentGame, playerStats, onRegister, onWin, className }) {
   const controls = useDragControls();
 
   return (
-    <Reorder.Item value={player} dragListener={false} dragControls={controls}>
+    <Reorder.Item value={player} dragListener={false} dragControls={controls} className={className}>
       <PlayerCard
         player={player}
         index={index}
@@ -89,16 +90,16 @@ export default function ArenaPage({
         }`}
       >
         {players.map((player, index) => (
-          <div key={player.id} className={isLandscape ? "w-[280px] lg:w-[320px] shrink-0" : "w-full max-w-sm"}>
-            <DraggablePlayerCard
-              player={player}
-              index={index}
-              currentGame={currentGame}
-              playerStats={getPlayerStats(player.name)}
-              onRegister={onRegister}
-              onWin={onWin}
-            />
-          </div>
+          <DraggablePlayerCard
+            key={player.id}
+            player={player}
+            index={index}
+            currentGame={currentGame}
+            playerStats={getPlayerStats(player.name)}
+            onRegister={onRegister}
+            onWin={onWin}
+            className={isLandscape ? "w-[280px] lg:w-[320px] shrink-0" : "w-full max-w-sm"}
+          />
         ))}
       </Reorder.Group>
     </main>
