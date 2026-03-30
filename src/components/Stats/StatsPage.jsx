@@ -42,40 +42,40 @@ export default function StatsPage({ stats }) {
   }
 
   return (
-    <main className="pt-20 pb-40 px-6 md:px-10 max-w-7xl mx-auto space-y-24">
+    <main className="pt-10 md:pt-20 pb-20 md:pb-40 px-4 md:px-10 max-w-7xl mx-auto space-y-16 md:space-y-24">
       {/* Header */}
-      <header className="space-y-6 text-center lg:text-left">
-        <div className="inline-flex items-center gap-3 px-5 py-2 bg-surface-container-high rounded-full border border-white/5 shadow-inner">
-          <span className="w-3 h-3 rounded-full bg-tertiary animate-pulse" />
-          <span className="text-xs font-black uppercase tracking-[0.2em] font-label text-tertiary">
+      <header className="space-y-4 md:space-y-6 text-center lg:text-left">
+        <div className="inline-flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 bg-surface-container-high rounded-full border border-white/5 shadow-inner">
+          <span className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-tertiary animate-pulse" />
+          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] font-label text-tertiary">
             TOTAL {totalGames} BATTLES RECORDED
           </span>
         </div>
-        <h2 className="text-5xl md:text-7xl font-black font-headline tracking-tighter italic">
+        <h2 className="text-4xl md:text-5xl lg:text-7xl font-black font-headline tracking-tighter italic">
           실시간 랭킹 & 통계
         </h2>
       </header>
 
       {/* Bento Layout */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
         {/* Podium */}
-        <div className="lg:col-span-7 bg-surface-container-low rounded-[3rem] p-12 md:p-16 relative overflow-hidden flex flex-col items-center justify-end min-h-[500px] border border-white/5 shadow-2xl">
+        <div className="lg:col-span-7 bg-surface-container-low rounded-[2rem] md:rounded-[3rem] lg:rounded-[4rem] p-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col items-center justify-end min-h-[400px] md:min-h-[500px] border border-white/5 shadow-2xl">
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-br from-tertiary/20 via-surface-container-low to-primary/20" />
           </div>
 
           {top3.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full gap-8">
-              <div className="w-24 h-24 rounded-full bg-surface-container-highest flex items-center justify-center animate-bounce">
-                <span className="material-symbols-outlined text-6xl text-tertiary/40">
+            <div className="flex flex-col items-center justify-center h-full gap-6 md:gap-8">
+              <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-surface-container-highest flex items-center justify-center animate-bounce">
+                <span className="material-symbols-outlined text-4xl md:text-6xl text-tertiary/40">
                   emoji_events
                 </span>
               </div>
-              <p className="text-on-surface-variant text-xl font-medium opacity-50">아직 새겨진 기록이 없습니다</p>
+              <p className="text-on-surface-variant text-lg md:text-xl font-medium opacity-50">아직 새겨진 기록이 없습니다</p>
             </div>
           ) : (
-            <div className="w-full flex items-end justify-center gap-6 md:gap-12 mb-6">
+            <div className="w-full flex items-end justify-center gap-3 md:gap-6 lg:gap-12 mb-4 md:mb-6">
               {podiumOrder.map((orderIdx, displayIdx) => {
                 const entry = top3[orderIdx];
                 if (!entry) return <div key={displayIdx} className={podiumBarWidths[displayIdx]} />;
@@ -85,33 +85,33 @@ export default function StatsPage({ stats }) {
                 return (
                   <motion.div
                     key={entry.name}
-                    initial={{ y: 100, opacity: 0 }}
+                    initial={{ y: 80, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: displayIdx * 0.2, type: 'spring', stiffness: 80 }}
-                    className={`flex flex-col items-center group ${orderIdx === 0 ? '-mb-6' : ''}`}
+                    className={`flex flex-col items-center group ${orderIdx === 0 ? '-mb-4 md:-mb-6' : ''}`}
                   >
                     {/* Avatar */}
-                    <div className="mb-6 relative">
-                      <div className={`${podiumSizes[displayIdx]} rounded-full border-4 ${podiumColors[displayIdx]} overflow-hidden ring-8 ${podiumRingColors[displayIdx]} bg-surface-container-highest flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.4)]`}>
-                        <span className="text-2xl md:text-4xl font-black font-headline text-on-surface">
+                    <div className="mb-4 md:mb-6 relative">
+                      <div className={`${podiumSizes[displayIdx]} rounded-full border-4 ${podiumColors[displayIdx]} overflow-hidden ring-4 md:ring-8 ${podiumRingColors[displayIdx]} bg-surface-container-highest flex items-center justify-center shadow-xl md:shadow-[0_20px_50px_rgba(0,0,0,0.4)]`}>
+                        <span className="text-xl md:text-2xl lg:text-4xl font-black font-headline text-on-surface">
                           {initials}
                         </span>
                       </div>
                       {/* Rank label */}
-                      <div className={`absolute -bottom-3 left-1/2 -translate-x-1/2 ${podiumLabelBg[displayIdx]} px-4 py-1 rounded-full text-xs font-black shadow-xl border-2 border-surface`}>
+                      <div className={`absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 ${podiumLabelBg[displayIdx]} px-3 md:px-4 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-black shadow-xl border-2 border-surface`}>
                         {podiumLabels[displayIdx]}
                       </div>
                     </div>
 
                     {/* Podium bar */}
-                    <div className={`${podiumHeights[displayIdx]} ${podiumBarWidths[displayIdx]} bg-gradient-to-b from-surface-container-highest to-surface-container-low rounded-t-[2rem] flex flex-col items-center justify-start pt-6 md:pt-10 shadow-3xl transition-all duration-500 group-hover:-translate-y-4`}>
-                      <span className={`text-3xl md:text-5xl font-black font-headline ${podiumTextColors[displayIdx]}`}>
+                    <div className={`${podiumHeights[displayIdx]} ${podiumBarWidths[displayIdx]} bg-gradient-to-b from-surface-container-highest to-surface-container-low rounded-t-[1.5rem] md:rounded-t-[2rem] flex flex-col items-center justify-start pt-4 md:pt-6 lg:pt-10 shadow-2xl md:shadow-3xl transition-all duration-500 group-hover:-translate-y-4`}>
+                      <span className={`text-2xl md:text-3xl lg:text-5xl font-black font-headline ${podiumTextColors[displayIdx]}`}>
                         {entry.wins}
                       </span>
-                      <span className={`text-xs uppercase font-black tracking-[0.3em] mt-2 ${podiumTextColors[displayIdx]}/50`}>
+                      <span className={`text-[10px] md:text-xs uppercase font-black tracking-[0.2em] md:tracking-[0.3em] mt-1 md:mt-2 ${podiumTextColors[displayIdx]}/50`}>
                         WINS
                       </span>
-                      <div className="mt-4 text-xs font-black text-white/40 tracking-tighter">{entry.name}</div>
+                      <div className="mt-2 md:mt-4 text-[10px] md:text-xs font-black text-white/40 tracking-tighter">{entry.name}</div>
                     </div>
                   </motion.div>
                 );
@@ -121,28 +121,25 @@ export default function StatsPage({ stats }) {
         </div>
 
         {/* Right Column: Stats Cards */}
-        <div className="lg:col-span-5 flex flex-col gap-24">
+        <div className="lg:col-span-5 flex flex-col gap-8 md:gap-16 lg:gap-24">
           {/* Efficiency Metric */}
-          <div 
-            style={{ padding: '6rem', minHeight: '600px' }}
-            className="bg-surface-container-low rounded-[5rem] flex flex-col justify-between border-t border-r border-b border-white/5 border-l-[20px] border-l-primary-container shadow-2xl transition-all duration-500 hover:scale-[1.02]"
-          >
-            <div className="space-y-12">
-              <h3 className="text-base font-black font-label tracking-[0.6em] text-primary-container/80 uppercase">
+          <div className="bg-surface-container-low rounded-[2rem] md:rounded-[4rem] p-8 md:p-16 lg:p-20 flex flex-col justify-between border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-primary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
+            <div className="space-y-4 md:space-y-8">
+              <h3 className="text-xs md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-primary-container/80 uppercase">
                 EFFICIENCY METRIC
               </h3>
-              <p className="text-6xl font-black font-headline italic tracking-tighter leading-[1.2]">첫 등록시<br />승리 비율</p>
+              <p className="text-3xl md:text-4xl lg:text-6xl font-black font-headline italic tracking-tighter leading-tight md:leading-[1.1]">첫 등록시<br className="hidden md:block" /> 승리 비율</p>
             </div>
-            <div className="flex items-center gap-20 mt-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-16 mt-8 md:mt-auto">
               {/* Gauge */}
-              <div className="relative w-48 h-48 flex items-center justify-center flex-shrink-0">
+              <div className="relative w-32 h-32 md:w-44 md:h-44 flex items-center justify-center flex-shrink-0">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 128 128">
-                  <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="18" />
+                  <circle cx="64" cy="64" r="54" fill="transparent" stroke="var(--color-surface-container-highest)" strokeWidth="12" md:strokeWidth="16" />
                   <circle
                     cx="64" cy="64" r="54"
                     fill="transparent"
                     stroke="var(--color-primary-container)"
-                    strokeWidth="18"
+                    strokeWidth="12" md:strokeWidth="16"
                     strokeDasharray={2 * Math.PI * 54}
                     strokeDashoffset={2 * Math.PI * 54 * (1 - avgRate / 100)}
                     strokeLinecap="round"
@@ -150,11 +147,11 @@ export default function StatsPage({ stats }) {
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center">
-                  <span className="text-6xl font-black font-headline tracking-tighter">{avgRate}%</span>
+                  <span className="text-3xl md:text-5xl font-black font-headline tracking-tighter">{avgRate}%</span>
                 </div>
               </div>
-              <div className="space-y-10 flex-1">
-                <p className="text-2xl text-on-surface-variant/80 font-medium italic leading-relaxed">
+              <div className="space-y-3 md:space-y-8 flex-1 text-center sm:text-left">
+                <p className="text-base md:text-xl text-on-surface-variant/80 font-medium italic leading-relaxed">
                   "빠른 등록은 승리로 가는 가장 확실한 전략입니다."
                 </p>
               </div>
@@ -162,28 +159,25 @@ export default function StatsPage({ stats }) {
           </div>
 
           {/* Rivalry Analysis */}
-          <div 
-            style={{ padding: '6rem', minHeight: '600px' }}
-            className="bg-surface-container-low rounded-[5rem] space-y-20 border-t border-r border-b border-white/5 border-l-[20px] border-l-secondary-container shadow-2xl transition-all duration-500 hover:scale-[1.02]"
-          >
-            <div className="space-y-12">
-              <h3 className="text-base font-black font-label tracking-[0.6em] text-secondary-container/80 uppercase">
+          <div className="bg-surface-container-low rounded-[2rem] md:rounded-[4rem] p-8 md:p-16 lg:p-20 space-y-8 md:space-y-16 border-t border-r border-b border-white/5 border-l-8 md:border-l-[16px] lg:border-l-[20px] border-l-secondary-container shadow-2xl min-h-[350px] md:min-h-[500px] lg:min-h-[600px] transition-all duration-500 hover:scale-[1.01]">
+            <div className="space-y-4 md:space-y-8">
+              <h3 className="text-xs md:text-sm font-black font-label tracking-[0.3em] md:tracking-[0.5em] text-secondary-container/80 uppercase">
                 RIVALRY ANALYSIS
               </h3>
-              <p className="text-6xl font-black font-headline italic tracking-tighter leading-[1.2]">승률 분포</p>
+              <p className="text-3xl md:text-4xl lg:text-6xl font-black font-headline italic tracking-tighter leading-tight md:leading-[1.1]">승률 분포</p>
             </div>
-            <div className="space-y-16">
+            <div className="space-y-6 md:space-y-12">
               {mvpRanking.slice(0, 4).map((entry, idx) => {
                 const rate = totalGames > 0 ? Math.round((entry.wins / totalGames) * 100) : 0;
                 return (
-                  <div key={entry.name} className="space-y-6">
+                  <div key={entry.name} className="space-y-2 md:space-y-5">
                     <div className="flex justify-between items-end">
-                      <span className="text-3xl font-black font-headline text-on-surface italic">
+                      <span className="text-lg md:text-2xl font-black font-headline text-on-surface italic">
                         {idx + 1}. {entry.name}
                       </span>
-                      <span className="text-secondary font-black text-xl tracking-widest">{rate}% WIN RATE</span>
+                      <span className="text-secondary font-black text-xs md:text-lg tracking-widest">{rate}% WIN RATE</span>
                     </div>
-                    <div className="h-10 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-2">
+                    <div className="h-5 md:h-8 bg-surface-container-highest rounded-full overflow-hidden shadow-inner p-1 md:p-1.5">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${rate}%` }}
@@ -195,8 +189,8 @@ export default function StatsPage({ stats }) {
                 );
               })}
               {mvpRanking.length === 0 && (
-                <div className="py-24 text-center italic text-3xl opacity-20 flex flex-col items-center gap-8">
-                  <div className="w-24 h-1.5 bg-white/10 rounded-full animate-pulse" />
+                <div className="py-12 md:py-24 text-center italic text-xl md:text-2xl opacity-20 flex flex-col items-center gap-4 md:gap-6">
+                  <div className="w-12 md:w-16 h-1 md:h-1.5 bg-white/10 rounded-full animate-pulse" />
                   데이터 수집 중...
                 </div>
               )}
