@@ -18,7 +18,7 @@ export default function PlayerSelection({ selectedIds, onToggle, onStart }) {
           <p className="text-on-surface-variant text-lg font-medium opacity-70 decoration-primary/20 underline-offset-10 underline decoration-2">함께 루미큐브할 사람을 선택해 주세요 (2~5명)</p>
         </div>
 
-        <div className="w-full flex justify-center mb-10 mt-6">
+        <div className="w-full flex justify-center mt-6" style={{ marginBottom: '16px' }}>
           <motion.button
             disabled={selectedIds.length < 2}
             onClick={onStart}
