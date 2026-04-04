@@ -121,25 +121,27 @@ export default function ArenaPage({
               : 'bg-surface-container-high/90 text-yellow-400 border-yellow-500/40 hover:bg-surface-container-highest backdrop-blur-md shadow-yellow-500/20'
           }`}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '42px' }}>
+          <span className="material-symbols-outlined" style={{ fontSize: '48px' }}>
             {timer.isPaused ? 'play_arrow' : 'pause'}
           </span>
-          <span className="text-sm uppercase tracking-tighter">
-            {timer.isPaused ? 'Resume' : 'Pause'}
+          <span className="text-[10px] font-black uppercase tracking-[0.1em] mt-1">
+            {timer.isPaused ? 'RESUME' : 'PAUSE'}
           </span>
         </button>
       )}
 
       {/* Turn 카운트 표시 */}
       {hasGameStarted && (
-        <div className="absolute top-[216px] -translate-y-1/2 left-8 md:left-16 z-30 flex flex-col items-center justify-center gap-2 bg-surface-container-high/60 backdrop-blur-md px-8 py-6 rounded-[40px] border-2 border-white/10 shadow-xl">
-          <div className="flex items-center gap-2 text-on-surface-variant/80">
-            <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>replay</span>
-            <span className="text-base font-black font-label uppercase tracking-widest">Turn</span>
+        <div className="absolute top-[220px] -translate-y-1/2 left-8 md:left-12 z-30 flex items-center gap-5 bg-surface-container-high/60 backdrop-blur-md px-10 py-6 rounded-[32px] border-2 border-white/10 shadow-2xl min-w-[220px]">
+          <div className="bg-white/5 p-3 rounded-2xl">
+            <span className="material-symbols-outlined text-on-surface-variant" style={{ fontSize: '36px' }}>replay</span>
           </div>
-          <span className="text-5xl font-black font-headline text-on-surface leading-none">
-            {turnCount}
-          </span>
+          <div className="flex flex-col gap-0">
+            <span className="text-[11px] font-black font-label uppercase tracking-[0.2em] text-on-surface-variant/60 leading-none mb-1">Turn</span>
+            <span className="text-5xl font-black font-headline text-on-surface leading-none">
+              {turnCount}
+            </span>
+          </div>
         </div>
       )}
 
