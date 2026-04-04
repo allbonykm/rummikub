@@ -115,25 +115,30 @@ export default function ArenaPage({
       {showPauseButton && (
         <button
           onClick={handlePauseResume}
-          className={`absolute top-3 right-8 md:right-12 z-30 px-8 py-4 rounded-2xl text-lg font-bold font-label tracking-wider transition-all duration-200 active:scale-95 shadow-lg border-2 flex items-center gap-3 ${
+          className={`absolute top-[216px] -translate-y-1/2 right-8 md:right-16 z-30 w-32 h-32 rounded-full text-lg font-bold font-label tracking-wider transition-all duration-200 active:scale-95 shadow-2xl border-4 flex flex-col items-center justify-center gap-1 ${
             timer.isPaused
-              ? 'bg-primary-container/90 text-white border-primary-container/50 hover:bg-primary-container shadow-primary-container/20'
-              : 'bg-surface-container-high/80 text-yellow-400 border-yellow-500/30 hover:bg-surface-container-highest backdrop-blur-sm shadow-yellow-500/10'
+              ? 'bg-primary-container text-white border-primary-container/50 hover:bg-primary-container/90 shadow-primary-container/30'
+              : 'bg-surface-container-high/90 text-yellow-400 border-yellow-500/40 hover:bg-surface-container-highest backdrop-blur-md shadow-yellow-500/20'
           }`}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>
+          <span className="material-symbols-outlined" style={{ fontSize: '42px' }}>
             {timer.isPaused ? 'play_arrow' : 'pause'}
           </span>
-          {timer.isPaused ? 'Resume' : 'Pause'}
+          <span className="text-sm uppercase tracking-tighter">
+            {timer.isPaused ? 'Resume' : 'Pause'}
+          </span>
         </button>
       )}
 
       {/* Turn 카운트 표시 */}
       {hasGameStarted && (
-        <div className="absolute top-3 left-8 md:left-12 z-30 flex items-center gap-3 bg-surface-container-high/60 backdrop-blur-sm px-5 py-3 rounded-2xl border border-white/10">
-          <span className="material-symbols-outlined text-on-surface-variant" style={{ fontSize: '24px' }}>replay</span>
-          <span className="text-base font-bold font-label tracking-wider text-on-surface-variant">
-            Turn <span className="text-on-surface text-2xl font-black">{turnCount}</span>
+        <div className="absolute top-[216px] -translate-y-1/2 left-8 md:left-16 z-30 flex flex-col items-center justify-center gap-2 bg-surface-container-high/60 backdrop-blur-md px-8 py-6 rounded-[40px] border-2 border-white/10 shadow-xl">
+          <div className="flex items-center gap-2 text-on-surface-variant/80">
+            <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>replay</span>
+            <span className="text-base font-black font-label uppercase tracking-widest">Turn</span>
+          </div>
+          <span className="text-5xl font-black font-headline text-on-surface leading-none">
+            {turnCount}
           </span>
         </div>
       )}
