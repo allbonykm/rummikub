@@ -96,7 +96,7 @@ export default function ArenaPage({
       history.forEach((record) => {
         // GAS에서 isDeleted가 문자열 'TRUE'/'FALSE'로 내려올 수 있으므로 방어 코드 작성
         const isDeleted = record.isDeleted === true || String(record.isDeleted).toUpperCase() === 'TRUE';
-        
+
         if (record.winner === playerName && !isDeleted) {
           allTime++;
           const recordDate = new Date(record.timestamp).toDateString();
@@ -115,11 +115,10 @@ export default function ArenaPage({
       {showPauseButton && (
         <button
           onClick={handlePauseResume}
-          className={`absolute top-[216px] -translate-y-1/2 right-8 md:right-16 z-30 w-32 h-32 rounded-full text-lg font-bold font-label tracking-wider transition-all duration-200 active:scale-95 shadow-2xl border-4 flex flex-col items-center justify-center gap-1 ${
-            timer.isPaused
-              ? 'bg-primary-container text-white border-primary-container/50 hover:bg-primary-container/90 shadow-primary-container/30'
-              : 'bg-surface-container-high/90 text-yellow-400 border-yellow-500/40 hover:bg-surface-container-highest backdrop-blur-md shadow-yellow-500/20'
-          }`}
+          className={`absolute top-[216px] -translate-y-1/2 right-8 md:right-16 z-30 w-32 h-32 rounded-full text-lg font-bold font-label tracking-wider transition-all duration-200 active:scale-95 shadow-2xl border-4 flex flex-col items-center justify-center gap-1 ${timer.isPaused
+            ? 'bg-primary-container text-white border-primary-container/50 hover:bg-primary-container/90 shadow-primary-container/30'
+            : 'bg-surface-container-high/90 text-yellow-400 border-yellow-500/40 hover:bg-surface-container-highest backdrop-blur-md shadow-yellow-500/20'
+            }`}
         >
           <span className="material-symbols-outlined" style={{ fontSize: '48px' }}>
             {timer.isPaused ? 'play_arrow' : 'pause'}
@@ -132,13 +131,10 @@ export default function ArenaPage({
 
       {/* Turn 카운트 표시 */}
       {hasGameStarted && (
-        <div className="absolute top-[220px] -translate-y-1/2 left-8 md:left-12 z-30 flex items-center gap-5 bg-surface-container-high/60 backdrop-blur-md px-10 py-6 rounded-[32px] border-2 border-white/10 shadow-2xl min-w-[220px]">
-          <div className="bg-white/5 p-3 rounded-2xl">
-            <span className="material-symbols-outlined text-on-surface-variant" style={{ fontSize: '36px' }}>replay</span>
-          </div>
-          <div className="flex flex-col gap-0">
-            <span className="text-[11px] font-black font-label uppercase tracking-[0.2em] text-on-surface-variant/60 leading-none mb-1">Turn</span>
-            <span className="text-5xl font-black font-headline text-on-surface leading-none">
+        <div className="absolute top-[220px] -translate-y-1/2 left-8 md:left-12 z-30 flex flex-row items-center justify-center bg-surface-container-high/60 backdrop-blur-md px-8 py-6 rounded-[32px] border-2 border-white/10 shadow-2xl min-w-[140px]">
+          <div className="flex flex-col items-center gap-0">
+            <span className="text-[11px] font-black font-label uppercase tracking-[0.2em] text-on-surface-variant/60 leading-none mb-1 text-center">Turn</span>
+            <span className="text-5xl font-black font-headline text-on-surface leading-none text-center">
               {turnCount}
             </span>
           </div>
@@ -155,16 +151,18 @@ export default function ArenaPage({
         onToggle={handleTimerToggle}
       />
 
+      {/* spacer to force gap */}
+      <div className="h-8" aria-hidden="true"></div>
+
       {/* Player List (Drag & Drop Reorder) */}
-      <Reorder.Group 
-        axis={isLandscape ? "x" : "y"} 
-        values={players} 
-        onReorder={setPlayers} 
-        className={`flex mt-20 md:mt-16 w-full ${
-          isLandscape 
-            ? "flex-row justify-center items-stretch gap-6" 
-            : "flex-col items-center gap-10"
-        }`}
+      <Reorder.Group
+        axis={isLandscape ? "x" : "y"}
+        values={players}
+        onReorder={setPlayers}
+        className={`flex mt-20 pt-40 md:pt-32 w-full ${isLandscape
+          ? "flex-row justify-center items-stretch gap-6"
+          : "flex-col items-center gap-10"
+          }`}
       >
         {players.map((player, index) => (
           <DraggablePlayerCard

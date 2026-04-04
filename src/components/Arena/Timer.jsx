@@ -59,7 +59,7 @@ export default function Timer({ seconds, isRunning, isPaused, isAlarm, progress,
   };
 
   return (
-    <section className="mb-6 text-center relative">
+    <section className="mb-20 text-center relative">
       <div className="inline-block relative">
         {/* Glow background */}
         <div className={`absolute inset-0 rounded-full blur-3xl transition-opacity ${isAlarm ? 'bg-primary-container/30 opacity-100' : 'bg-primary/10 opacity-60'}`} />
