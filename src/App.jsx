@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { TopNav, BottomNav } from './components/Layout/Navigation';
 import ArenaPage from './components/Arena/ArenaPage';
 import PlayerSelection from './components/Arena/PlayerSelection';
+import WinModal from './components/Arena/WinModal';
 import StatsPage from './components/Stats/StatsPage';
 import VaultPage from './components/Vault/VaultPage';
 import useTimer from './hooks/useTimer';
@@ -18,6 +19,19 @@ function App() {
   const timer = useTimer(60);
   const wakeLock = useWakeLock();
   const gameState = useGameState();
+
+  // 플레이어 차례 및 턴 관리 (ArenaPage에서 사용)
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  const [turnCount, setTurnCount] = useState(1);
+  const [hasGameStarted, setHasGameStarted] = useState(false);
+
+  // 승리 모달 상태
+  const [winModal, setWinModal] = useState({
+    isOpen: false,
+    winner: '',
+    duration: 0,
+    turnCount: 0,
+  });
 
   // Wake Lock 자동 요청
   useEffect(() => {
@@ -41,6 +55,10 @@ function App() {
         setOrderedPlayers(initialOrdered);
       }
       setIsGameActive(true);
+      // 턴 관련 상태 초기화
+      setCurrentPlayerIndex(0);
+      setTurnCount(1);
+      setHasGameStarted(false);
     }
   };
 
@@ -48,6 +66,10 @@ function App() {
   const handleResetPlayers = () => {
     setIsGameActive(false);
     timer.stop();
+    setCurrentPlayerIndex(0);
+    setTurnCount(1);
+    setHasGameStarted(false);
+    setWinModal((prev) => ({ ...prev, isOpen: false }));
   };
 
   const selectedPlayers = PLAYERS.filter((p) => selectedPlayerIds.includes(p.id));
@@ -59,41 +81,59 @@ function App() {
 
   // 승리 처리
   const handleWin = async (playerName) => {
-    // 1. 승리 축포 애니메이션 (루미큐브 색상: 빨강, 노랑, 검정 등)
+    // 타이머 정지
+    timer.stop();
+
+    // 게임 시간 계산
+    const now = new Date();
+    const duration = gameState.currentGame.startTime
+      ? Math.round((now - new Date(gameState.currentGame.startTime)) / 1000)
+      : 0;
+
+    // 1. 승리 축포 애니메이션
     import('canvas-confetti').then((confetti) => {
       confetti.default({
         particleCount: 150,
         spread: 80,
         origin: { y: 0.5 },
-        colors: ['#E6192E', '#E9C400', '#111114', '#FFFFFF'],
+        colors: ['#E6192E', '#E9C400', '#111114', '#FFFFFF', '#FFD700'],
         zIndex: 9999
       });
     });
 
-    // 2. 축포를 볼 수 있도록 약간 지연 후 대화상자 표시
-    setTimeout(async () => {
-      const isNewGame = window.confirm(`${playerName}님이 승리했습니다! 🥳\n이 멤버 그대로 새 게임을 시작하시겠습니까?\n(취소 시 멤버 선택 화면으로 돌아갑니다)`);
-      
-      // 승리 기록 저장 (API 및 로컬)
-      await gameState.recordWin(playerName, selectedPlayers);
-      
-      if (isNewGame) {
-        // 새 게임 시작: 타이머 멈춤
-        timer.stop();
-        // 승리자를 맨 위(1번) 자리로 스와핑
-        setOrderedPlayers((prev) => {
-          const winnerIndex = prev.findIndex((p) => p.name === playerName);
-          if (winnerIndex <= 0) return prev;
-          const newOrder = [...prev];
-          const [winnerItem] = newOrder.splice(winnerIndex, 1);
-          newOrder.unshift(winnerItem);
-          return newOrder;
-        });
-      } else {
-        // 멤버 선택 화면으로 돌아감
-        handleResetPlayers();
-      }
+    // 2. 커스텀 모달 표시 (window.confirm 대체)
+    setTimeout(() => {
+      setWinModal({
+        isOpen: true,
+        winner: playerName,
+        duration,
+        turnCount,
+      });
     }, 400);
+
+    // 3. 승리 기록 저장 (API 및 로컬) - gameTurn 포함
+    await gameState.recordWin(playerName, selectedPlayers, turnCount);
+  };
+
+  // 새 게임 시작 (같은 멤버)
+  const handleNewGame = () => {
+    const winnerName = winModal.winner;
+    setWinModal((prev) => ({ ...prev, isOpen: false }));
+
+    // 승리자를 맨 위(1번) 자리로 스와핑
+    setOrderedPlayers((prev) => {
+      const winnerIndex = prev.findIndex((p) => p.name === winnerName);
+      if (winnerIndex <= 0) return prev;
+      const newOrder = [...prev];
+      const [winnerItem] = newOrder.splice(winnerIndex, 1);
+      newOrder.unshift(winnerItem);
+      return newOrder;
+    });
+
+    // 턴 관련 상태 초기화
+    setCurrentPlayerIndex(0);
+    setTurnCount(1);
+    setHasGameStarted(false);
   };
 
   // Undo 처리
@@ -146,6 +186,12 @@ function App() {
                 history={gameState.history}
                 onRegister={handleRegister}
                 onWin={handleWin}
+                turnCount={turnCount}
+                setTurnCount={setTurnCount}
+                currentPlayerIndex={currentPlayerIndex}
+                setCurrentPlayerIndex={setCurrentPlayerIndex}
+                hasGameStarted={hasGameStarted}
+                setHasGameStarted={setHasGameStarted}
               />
             )}
           </motion.div>
@@ -177,6 +223,16 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 승리 커스텀 모달 */}
+      <WinModal
+        isOpen={winModal.isOpen}
+        winner={winModal.winner}
+        duration={winModal.duration}
+        turnCount={winModal.turnCount}
+        onNewGame={handleNewGame}
+        onReset={handleResetPlayers}
+      />
 
       {/* Bottom Navigation */}
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

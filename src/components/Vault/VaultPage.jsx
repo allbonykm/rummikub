@@ -85,6 +85,11 @@ export default function VaultPage({ history }) {
                       {formatDuration(record.duration)}
                     </span>
                   )}
+                  {record.gameTurn > 0 && (
+                    <span className="flex items-center gap-1">
+                      🔄 {record.gameTurn}턴
+                    </span>
+                  )}
                 </div>
               </div>
 

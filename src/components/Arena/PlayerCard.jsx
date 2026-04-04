@@ -4,12 +4,14 @@ import { UserPlus } from 'lucide-react';
 
 /**
  * 개별 플레이어 카드 컴포넌트
+ * - isCurrentTurn: 현재 차례일 때 골드 강조 + 스케일업 + YOUR TURN 뱃지
  */
 export default function PlayerCard({
   player,
   index,
   isFirstRegistered,
   isWinner,
+  isCurrentTurn,
   onRegister,
   onWin,
   disabled,
@@ -28,24 +30,54 @@ export default function PlayerCard({
   const initials = player.name.charAt(0);
   const colorIndex = index % borderColors.length;
 
+  // 현재 차례 카드 강조 스타일
+  const getCardStyle = () => {
+    if (isCurrentTurn) {
+      return 'border-[#FFD700]/80 shadow-[0_0_40px_rgba(255,215,0,0.35)] ring-2 ring-[#FFD700]/40';
+    }
+    if (isWinner) {
+      return 'border-tertiary/60 shadow-[0_0_50px_rgba(233,196,0,0.15)] ring-1 ring-tertiary/20';
+    }
+    if (isFirstRegistered) {
+      return 'border-primary-container/60 shadow-[0_0_50px_rgba(230,25,46,0.1)] ring-1 ring-primary-container/20';
+    }
+    return 'border-white/5 hover:border-white/20';
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08 }}
-      className={`bg-surface-container-low p-6 sm:p-8 rounded-3xl border flex flex-col gap-4 relative transition-all duration-300 w-full ${
-        isWinner
-          ? 'border-tertiary/60 shadow-[0_0_50px_rgba(233,196,0,0.15)] ring-1 ring-tertiary/20'
-          : isFirstRegistered
-          ? 'border-primary-container/60 shadow-[0_0_50px_rgba(230,25,46,0.1)] ring-1 ring-primary-container/20'
-          : 'border-white/5 hover:border-white/20'
-      }`}
+      animate={{
+        opacity: isCurrentTurn ? 1 : (isCurrentTurn === false && !isWinner ? 0.55 : 1),
+        y: 0,
+        scale: isCurrentTurn ? 1.04 : 1,
+      }}
+      transition={{
+        delay: index * 0.08,
+        scale: { type: "spring", stiffness: 300, damping: 25 },
+        opacity: { duration: 0.3 },
+      }}
+      className={`${isCurrentTurn ? 'bg-gradient-to-br from-[#3d2e00] via-[#4a3800] to-[#2a1f00]' : 'bg-surface-container-low'} p-6 sm:p-8 rounded-3xl border flex flex-col gap-4 relative transition-all duration-300 w-full ${getCardStyle()}`}
     >
       {/* 턴 순번 뱃지 (카드 밖 좌측 상단 모서리에 걸침) */}
       {dragHandleProps && (
-        <div className="absolute -top-4 -left-4 z-30 bg-primary/90 text-on-primary font-black text-xl w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-[3px] border-surface">
+        <div className={`absolute -top-4 -left-4 z-30 font-black text-xl w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-[3px] border-surface ${isCurrentTurn
+          ? 'bg-[#FFD700] text-[#1a1400]'
+          : 'bg-primary/90 text-on-primary'
+          }`}>
           {index + 1}
         </div>
+      )}
+
+      {/* YOUR TURN 뱃지 */}
+      {isCurrentTurn && (
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="absolute -top-3 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-[#1a1400] text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg whitespace-nowrap"
+        >
+          ☘️
+        </motion.div>
       )}
 
       {/* 상단 프로필 및 핸들 영역 */}
@@ -57,11 +89,13 @@ export default function PlayerCard({
               src={`/assets/profiles/${player.name}.webp`}
               alt={player.name}
               onError={() => setImgError(true)}
-              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 ${borderColors[colorIndex]} bg-surface-container-highest shadow-xl`}
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 ${isCurrentTurn ? 'border-[#FFD700]' : borderColors[colorIndex]
+                } bg-surface-container-highest shadow-xl`}
             />
           ) : (
             <div
-              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-black font-headline border-2 ${borderColors[colorIndex]} bg-surface-container-highest text-on-surface shadow-xl`}
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-2xl sm:text-3xl font-black font-headline border-2 ${isCurrentTurn ? 'border-[#FFD700]' : borderColors[colorIndex]
+                } bg-surface-container-highest text-on-surface shadow-xl`}
             >
               {initials}
             </div>
@@ -69,13 +103,14 @@ export default function PlayerCard({
         </div>
 
         <div className="flex flex-col flex-1 min-w-0">
-          <h3 className="font-headline font-black text-2xl sm:text-3xl text-on-surface tracking-tight truncate">{player.name}</h3>
+          <h3 className={`font-headline font-black text-2xl sm:text-3xl tracking-tight truncate transition-colors duration-300 ${isCurrentTurn ? 'text-[#FFD700] drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]' : 'text-on-surface'
+            }`}>{player.name}</h3>
         </div>
 
         {/* 우측 인디케이터 및 드래그 핸들 */}
         <div className="ml-auto flex flex-col items-end gap-3 shrink-0">
           {dragHandleProps && (
-            <div 
+            <div
               className="w-12 h-10 mr-2 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none text-on-surface/30 hover:text-on-surface hover:bg-white/10 rounded-xl bg-transparent transition-colors"
               {...dragHandleProps}
             >
@@ -122,22 +157,20 @@ export default function PlayerCard({
         <button
           onClick={() => onRegister(player.name)}
           disabled={disabled || isFirstRegistered}
-          className={`font-label py-6 rounded-full text-lg font-black tracking-widest transition-all active:scale-95 shadow-sm border-2 ${
-            isFirstRegistered
-              ? 'bg-primary-container/10 text-primary-container/30 border-primary-container/20 cursor-default'
-              : 'bg-surface-container-highest text-secondary border-secondary/20 hover:bg-surface-bright hover:shadow-xl'
-          }`}
+          className={`font-label py-6 rounded-full text-lg font-black tracking-widest transition-all active:scale-95 shadow-sm border-2 ${isFirstRegistered
+            ? 'bg-primary-container/10 text-primary-container/30 border-primary-container/20 cursor-default'
+            : 'bg-surface-container-highest text-secondary border-secondary/20 hover:bg-surface-bright hover:shadow-xl'
+            }`}
         >
           등록
         </button>
         <button
           onClick={() => onWin(player.name)}
           disabled={disabled}
-          className={`font-label py-6 rounded-full text-lg font-black tracking-widest shadow-2xl active:scale-95 transition-all border-2 ${
-            isWinner
-              ? 'bg-tertiary text-on-tertiary border-tertiary/50'
-              : 'bg-gradient-to-br from-primary-container to-[#930016] text-white border-primary-container/30 hover:brightness-110'
-          }`}
+          className={`font-label py-6 rounded-full text-lg font-black tracking-widest shadow-2xl active:scale-95 transition-all border-2 ${isWinner
+            ? 'bg-tertiary text-on-tertiary border-tertiary/50'
+            : 'bg-gradient-to-br from-primary-container to-[#930016] text-white border-primary-container/30 hover:brightness-110'
+            }`}
         >
           승리
         </button>

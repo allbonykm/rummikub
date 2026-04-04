@@ -22,6 +22,7 @@ const getAudioContext = () => {
 export default function useTimer(initialSeconds = 60) {
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isRunning, setIsRunning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
   const intervalRef = useRef(null);
   const alarmRef = useRef(null);
@@ -130,6 +131,7 @@ export default function useTimer(initialSeconds = 60) {
     stopAlarm();
     setSeconds(initialSeconds);
     setIsRunning(false);
+    setIsPaused(false);
     setIsAlarm(false);
     // 리셋 후 자동 시작
     setTimeout(() => {
@@ -137,10 +139,38 @@ export default function useTimer(initialSeconds = 60) {
     }, 100);
   }, [initialSeconds, clearTimer, stopAlarm, start]);
 
+  const pause = useCallback(() => {
+    if (!isRunning || isAlarm) return;
+    clearTimer();
+    setIsRunning(false);
+    setIsPaused(true);
+  }, [isRunning, isAlarm, clearTimer]);
+
+  const resume = useCallback(() => {
+    if (!isPaused) return;
+    setIsPaused(false);
+    setIsRunning(true);
+    intervalRef.current = setInterval(() => {
+      setSeconds((prev) => {
+        if (prev <= 1) {
+          clearTimer();
+          setIsRunning(false);
+          startAlarm();
+          return 0;
+        }
+        if (prev - 1 <= 10 && prev - 1 >= 1) {
+          playCountdownSound(prev - 1);
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }, [isPaused, clearTimer, startAlarm, playCountdownSound]);
+
   const stop = useCallback(() => {
     clearTimer();
     stopAlarm();
     setIsRunning(false);
+    setIsPaused(false);
     setIsAlarm(false);
     setSeconds(initialSeconds);
   }, [initialSeconds, clearTimer, stopAlarm]);
@@ -156,9 +186,12 @@ export default function useTimer(initialSeconds = 60) {
   return {
     seconds,
     isRunning,
+    isPaused,
     isAlarm,
     start,
     reset,
+    pause,
+    resume,
     stop,
     progress: seconds / initialSeconds,
   };

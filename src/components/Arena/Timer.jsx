@@ -4,14 +4,16 @@ import { motion } from 'framer-motion';
  * 원형 타이머 컴포넌트
  * - 원형 프로그레스 바 + 남은 시간 표시
  * - 클릭 시 start / re-count 동작
+ * - isPaused 상태 시 깜빡임 시각 피드백
  */
-export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle }) {
-  const radius = 72;
+export default function Timer({ seconds, isRunning, isPaused, isAlarm, progress, onToggle }) {
+  const radius = 90;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference * (1 - progress);
 
   const getTimerColor = () => {
     if (isAlarm) return '#E6192E';
+    if (isPaused) return '#E9C400';
     if (seconds <= 10) return '#E6192E';
     if (seconds <= 30) return '#E9C400';
     return '#E6192E';
@@ -19,6 +21,7 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
 
   const getLabel = () => {
     if (isAlarm) return 'TIME UP!';
+    if (isPaused) return 'PAUSED';
     if (!isRunning && seconds === 60) return 'START';
     return 'RE-COUNT';
   };
@@ -49,12 +52,14 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
   };
 
   const handleToggle = () => {
-    playPing();
+    if (!isPaused) {
+      playPing();
+    }
     onToggle();
   };
 
   return (
-    <section className="mb-10 text-center relative">
+    <section className="mb-6 text-center relative">
       <div className="inline-block relative">
         {/* Glow background */}
         <div className={`absolute inset-0 rounded-full blur-3xl transition-opacity ${isAlarm ? 'bg-primary-container/30 opacity-100' : 'bg-primary/10 opacity-60'}`} />
@@ -65,25 +70,27 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
           </span>
 
           {/* Timer Circle */}
-          <div className="w-52 h-52 rounded-full border-4 border-surface-container-highest flex items-center justify-center bg-surface-container-low shadow-2xl">
+          <div className="w-72 h-72 rounded-full border-4 border-surface-container-highest flex items-center justify-center bg-surface-container-low shadow-2xl">
             <motion.button
               whileTap={{ scale: 0.92 }}
               onClick={handleToggle}
-              className={`group relative flex flex-col items-center justify-center w-44 h-44 rounded-full shadow-lg transition-all duration-200 ${
+              className={`group relative flex flex-col items-center justify-center w-64 h-64 rounded-full shadow-lg transition-all duration-200 ${
                 isAlarm
                   ? 'bg-gradient-to-br from-primary-container to-[#930016] timer-glow'
+                  : isPaused
+                  ? 'bg-gradient-to-br from-[#3a3500] to-[#1a1700]'
                   : 'bg-gradient-to-br from-primary-container to-[#930016]'
               }`}
             >
               {/* SVG Progress Ring */}
               <svg
                 className="absolute inset-0 w-full h-full -rotate-90"
-                viewBox="0 0 160 160"
+                viewBox="0 0 200 200"
               >
                 {/* Background ring */}
                 <circle
-                  cx="80"
-                  cy="80"
+                  cx="100"
+                  cy="100"
                   r={radius}
                   fill="transparent"
                   stroke="rgba(255,255,255,0.1)"
@@ -91,8 +98,8 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
                 />
                 {/* Progress ring */}
                 <circle
-                  cx="80"
-                  cy="80"
+                  cx="100"
+                  cy="100"
                   r={radius}
                   fill="transparent"
                   stroke={getTimerColor()}
@@ -100,22 +107,22 @@ export default function Timer({ seconds, isRunning, isAlarm, progress, onToggle 
                   strokeDasharray={circumference}
                   strokeDashoffset={dashOffset}
                   strokeLinecap="round"
-                  className="transition-all duration-1000 ease-linear"
+                  className={`transition-all duration-1000 ease-linear ${isPaused ? 'animate-pulse' : ''}`}
                 />
               </svg>
 
               {/* Timer text */}
               <motion.span
-                key={seconds}
+                key={`${seconds}-${isPaused}`}
                 initial={seconds <= 10 && isRunning ? { scale: 1.3 } : {}}
                 animate={{ scale: 1 }}
-                className={`text-5xl font-extrabold font-headline text-on-primary-container ${
+                className={`text-6xl font-extrabold font-headline text-on-primary-container ${
                   isAlarm ? 'animate-pulse' : ''
-                }`}
+                } ${isPaused ? 'animate-pulse' : ''}`}
               >
                 {isAlarm ? '🔔' : `${seconds}초`}
               </motion.span>
-              <span className="text-[10px] font-label uppercase tracking-widest opacity-80 mt-1 text-on-primary-container">
+              <span className={`text-xs font-label uppercase tracking-widest opacity-80 mt-1 text-on-primary-container ${isPaused ? 'text-yellow-400 opacity-100' : ''}`}>
                 {getLabel()}
               </span>
             </motion.button>

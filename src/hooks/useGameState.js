@@ -70,7 +70,7 @@ export default function useGameState() {
   /**
    * 승리자 기록 및 구글 시트 전송
    */
-  const recordWin = useCallback(async (playerName, activePlayers) => {
+  const recordWin = useCallback(async (playerName, activePlayers, gameTurn = 0) => {
     setIsLoading(true);
     const now = new Date();
 
@@ -83,6 +83,7 @@ export default function useGameState() {
       duration: currentGame.startTime
         ? Math.round((now - new Date(currentGame.startTime)) / 1000)
         : 0,
+      gameTurn: gameTurn,
     };
 
     try {
